@@ -9,24 +9,94 @@
 
 ## 설치
 
-[Releases](../../releases)에서 `ToggleFullChargeForGalaxy-v<버전>.apk`를 내려받은 뒤, PC에서 adb로 설치합니다.
+PC에서 adb로 앱을 설치하고 권한을 부여합니다. 아래 설명은 Windows 명령 프롬프트(CMD)를 기준으로 하며, 예시의 IP 주소·포트·페어링 코드는 모두 가상의 값입니다. 실제로는 휴대폰 화면에 표시되는 값을 입력해 주세요.
+
+### 1. 준비물 내려받기
+
+1. [Android SDK Platform-Tools](https://developer.android.com/tools/releases/platform-tools)를 내려받아 원하는 위치에 압축을 풉니다. 예: `C:\platform-tools`
+2. [Releases](../../releases)에서 `ToggleFullChargeForGalaxy-v<버전>.apk`를 내려받아 같은 폴더에 넣습니다.
+3. 해당 폴더에서 명령 프롬프트를 엽니다. 탐색기 주소창에 `cmd`를 입력하고 Enter를 누르면 그 폴더에서 바로 열립니다.
+
+### 2. 휴대폰에서 무선 디버깅 켜기
+
+1. 설정 → 휴대전화 정보 → 소프트웨어 정보 → **빌드번호**를 7번 누릅니다. "개발자 모드를 켰습니다"라는 안내가 나오면 됩니다.
+2. 설정 → 개발자 옵션 → **무선 디버깅**을 켭니다.
+3. PC와 휴대폰이 **같은 Wi-Fi**에 연결되어 있어야 합니다.
+
+### 3. 페어링 (기기마다 처음 한 번만)
+
+휴대폰에서 무선 디버깅 → **페어링 코드로 기기 페어링**을 누르면 아래와 같은 화면이 나옵니다.
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.2.apk
-adb shell pm grant io.github.nunnoo58.fullcharge android.permission.WRITE_SECURE_SETTINGS
+Wi-Fi 페어링 코드:  482913
+IP 주소 및 포트:     192.168.0.23:37145
 ```
 
-- 무선 디버깅으로 연결하려면: 휴대폰 설정 → 개발자 옵션 → 무선 디버깅을 켠 뒤 `adb pair <IP:포트>`, `adb connect <IP:포트>` 순서로 연결합니다.
-- `-r` 옵션으로 덮어 설치하면 권한이 유지됩니다. 앱을 삭제한 뒤 다시 설치했다면 권한 부여 명령을 다시 실행해야 합니다.
+PC에서 표시된 IP 주소와 포트로 페어링한 뒤, 6자리 코드를 입력합니다.
 
-## 호환성 확인
+```
+adb pair 192.168.0.23:37145
+Enter pairing code: 482913
+Successfully paired to 192.168.0.23:37145
+```
+
+### 4. 연결
+
+페어링 창을 닫으면 무선 디버깅 첫 화면에 **IP 주소 및 포트**가 따로 표시됩니다. 이 포트는 페어링 포트와 다릅니다.
+
+```
+IP 주소 및 포트:     192.168.0.23:41827
+```
+
+이 주소로 연결하고, 목록에 기기가 나오는지 확인합니다.
+
+```
+adb connect 192.168.0.23:41827
+connected to 192.168.0.23:41827
+
+adb devices
+List of devices attached
+192.168.0.23:41827      device
+```
+
+### 5. 호환성 확인
 
 ```
 adb shell getprop ro.build.version.oneui
+90000
+
 adb shell settings get global protect_battery
+1
 ```
 
-두 번째 명령의 결과가 `null`이면 해당 기기에는 이 설정이 없어 앱이 동작하지 않습니다.
+첫 번째 결과는 One UI 버전입니다(80000은 One UI 8, 90000은 One UI 9).
+
+두 번째 결과로 `0`, `1`, `3`, `4` 중 하나가 나오면 사용할 수 있습니다. `null`이 나오면 해당 기기에는 이 설정이 없어 앱이 동작하지 않습니다.
+
+### 6. 설치와 권한 부여
+
+```
+adb install -r ToggleFullChargeForGalaxy-v1.2.apk
+Performing Streamed Install
+Success
+
+adb shell pm grant io.github.nunnoo58.fullcharge android.permission.WRITE_SECURE_SETTINGS
+```
+
+권한 부여 명령은 성공하면 아무것도 출력하지 않습니다. 앱을 열어 "권한: 부여됨"으로 표시되는지 확인한 뒤, 홈 화면에 위젯을 추가하면 됩니다.
+
+### 참고
+
+- **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로(예: `192.168.0.23:43509`) 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
+- **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
+  ```
+  adb -s 192.168.0.23:41827 install -r ToggleFullChargeForGalaxy-v1.2.apk
+  ```
+  또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
+- **업데이트**: 새 버전도 `adb install -r`로 덮어 설치하면 권한이 그대로 유지됩니다. 앱을 삭제한 뒤 다시 설치했다면 권한 부여 명령을 다시 실행해야 합니다.
+- **페어링이 되지 않는 경우**: 학교·회사 Wi-Fi처럼 기기 간 통신을 막아 둔 네트워크에서는 연결되지 않을 수 있습니다. 이때는 PC와 휴대폰을 같은 핫스팟에 연결하거나, USB 케이블로 연결한 뒤(개발자 옵션 → USB 디버깅) 3·4번을 건너뛰고 진행합니다.
+- **PowerShell을 사용하는 경우**: 현재 폴더의 프로그램을 실행하려면 `adb` 대신 `.\adb`를 입력합니다.
+- **macOS**: 명령은 같습니다. 터미널에서 platform-tools 폴더로 이동한 뒤 `./adb`로 실행하며, sudo는 필요하지 않습니다.
 
 ## 동작 원리
 
