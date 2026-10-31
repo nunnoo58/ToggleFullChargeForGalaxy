@@ -1,5 +1,7 @@
 # ToggleFullChargeForGalaxy (이번만 완전 충전)
 
+**한국어** | [English](README.en.md)
+
 > 이 앱은 Anthropic의 AI 어시스턴트인 Claude를 이용해 만들었습니다. 코드 작성, 빌드, 문서화를 Claude와 함께 진행했습니다.
 
 Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입니다. 위젯을 누르면 One UI 배터리 보호(최대 80%)를 잠시 끄고, 완충되거나 설정한 시간이 지나면 원래 제한으로 되돌립니다.
