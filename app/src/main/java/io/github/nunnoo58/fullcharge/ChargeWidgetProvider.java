@@ -1,0 +1,64 @@
+package io.github.nunnoo58.fullcharge;
+
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.widget.RemoteViews;
+
+import java.text.DateFormat;
+import java.util.Date;
+
+/** 1x1 위젯. 누르면 제한 해제 ↔ 복구 토글 */
+public class ChargeWidgetProvider extends AppWidgetProvider {
+
+    @Override
+    public void onUpdate(Context ctx, AppWidgetManager mgr, int[] ids) {
+        render(ctx, mgr, ids);
+    }
+
+    public static void updateAll(Context ctx) {
+        AppWidgetManager mgr = AppWidgetManager.getInstance(ctx);
+        int[] ids = mgr.getAppWidgetIds(new ComponentName(ctx, ChargeWidgetProvider.class));
+        if (ids.length > 0) render(ctx, mgr, ids);
+    }
+
+    private static void render(Context ctx, AppWidgetManager mgr, int[] ids) {
+        RemoteViews v = new RemoteViews(ctx.getPackageName(), R.layout.widget);
+        boolean active = ChargeLimiter.isActive(ctx);
+        boolean ok = ChargeLimiter.hasPermission(ctx);
+
+        if (!ok) {
+            v.setTextViewText(R.id.big, "!");
+            v.setTextViewText(R.id.small, "권한 필요");
+            v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
+        } else if (active) {
+            String until = DateFormat.getTimeInstance(DateFormat.SHORT)
+                    .format(new Date(ChargeLimiter.endAt(ctx)));
+            v.setTextViewText(R.id.big, "100%");
+            v.setTextViewText(R.id.small, "~" + until);
+            v.setImageViewResource(R.id.bg, R.drawable.widget_bg_active);
+        } else {
+            int mode = ChargeLimiter.readMode(ctx);
+            int limit = ChargeLimiter.limitPercent(ctx, mode);
+            v.setTextViewText(R.id.big, limit > 0 ? limit + "%" : (mode == 0 ? "OFF" : "보호"));
+            v.setTextViewText(R.id.small, "눌러서 완충");
+            v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
+        }
+
+        PendingIntent click;
+        if (ok) {
+            Intent i = new Intent(ctx, BoostService.class).setAction(BoostService.ACTION_TOGGLE);
+            // 위젯 클릭에서 시작하는 포그라운드 서비스는 백그라운드 시작 제한의 예외에 해당
+            click = PendingIntent.getForegroundService(ctx, 0, i,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            click = PendingIntent.getActivity(ctx, 0, new Intent(ctx, MainActivity.class),
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        v.setOnClickPendingIntent(R.id.root, click);
+        mgr.updateAppWidget(ids, v);
+    }
+}

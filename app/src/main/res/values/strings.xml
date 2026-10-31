@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">이번만 완전 충전</string>
+    <string name="widget_desc">누르면 충전 제한을 잠시 풀고, 완충 또는 시간 초과 시 다시 제한함</string>
+</resources>
