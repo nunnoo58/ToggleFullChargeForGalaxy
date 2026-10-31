@@ -28,16 +28,16 @@ PC에서 adb로 앱을 설치하고 권한을 부여합니다. 아래 설명은 
 휴대폰에서 무선 디버깅 → **페어링 코드로 기기 페어링**을 누르면 아래와 같은 화면이 나옵니다.
 
 ```
-Wi-Fi 페어링 코드:  482913
-IP 주소 및 포트:     192.168.0.23:37145
+Wi-Fi 페어링 코드:  123456
+IP 주소 및 포트:     192.168.xxx.xxx:xxxxx
 ```
 
 PC에서 표시된 IP 주소와 포트로 페어링한 뒤, 6자리 코드를 입력합니다.
 
 ```
-adb pair 192.168.0.23:37145
-Enter pairing code: 482913
-Successfully paired to 192.168.0.23:37145
+adb pair 192.168.xxx.xxx:xxxxx
+Enter pairing code: 123456
+Successfully paired to 192.168.xxx.xxx:xxxxx
 ```
 
 ### 4. 연결
@@ -45,18 +45,18 @@ Successfully paired to 192.168.0.23:37145
 페어링 창을 닫으면 무선 디버깅 첫 화면에 **IP 주소 및 포트**가 따로 표시됩니다. 이 포트는 페어링 포트와 다릅니다.
 
 ```
-IP 주소 및 포트:     192.168.0.23:41827
+IP 주소 및 포트:     192.168.xxx.xxx:xxxxx
 ```
 
 이 주소로 연결하고, 목록에 기기가 나오는지 확인합니다.
 
 ```
-adb connect 192.168.0.23:41827
-connected to 192.168.0.23:41827
+adb connect 192.168.xxx.xxx:xxxxx
+connected to 192.168.xxx.xxx:xxxxx
 
 adb devices
 List of devices attached
-192.168.0.23:41827      device
+192.168.xxx.xxx:xxxxx      device
 ```
 
 ### 5. 호환성 확인
@@ -87,10 +87,10 @@ adb shell pm grant io.github.nunnoo58.fullcharge android.permission.WRITE_SECURE
 
 ### 참고
 
-- **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로(예: `192.168.0.23:43509`) 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
+- **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.0.23:41827 install -r ToggleFullChargeForGalaxy-v1.2.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.2.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **업데이트**: 새 버전도 `adb install -r`로 덮어 설치하면 권한이 그대로 유지됩니다. 앱을 삭제한 뒤 다시 설치했다면 권한 부여 명령을 다시 실행해야 합니다.
