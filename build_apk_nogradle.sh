@@ -2,10 +2,16 @@
 # Gradle/AGP 없이 aapt2 + javac + d8 + uber-apk-signer로 APK를 만드는 스크립트
 set -euo pipefail
 
-T=/path/to/tools
-P=/path/to/project/app/src/main
-OUT=/path/to/build
+# TOOLS: aapt2·android.jar·dx·uber-apk-signer가 있는 폴더 (환경변수로 지정)
+T=${TOOLS:?TOOLS 환경변수에 빌드 도구 폴더를 지정할 것}
+ROOT=$(cd "$(dirname "$0")" && pwd)
+P=$ROOT/app/src/main
+OUT=${OUT:-$ROOT/build-nogradle}
 PKG=io.github.nunnoo58.fullcharge
+# 버전은 app/build.gradle.kts에서 읽음
+VNAME=$(sed -n 's/^val appVersionName = "\(.*\)"/\1/p' "$ROOT/app/build.gradle.kts")
+VCODE=$(sed -n 's/^val appVersionCode = \([0-9]*\)/\1/p' "$ROOT/app/build.gradle.kts")
+APK_NAME="ToggleFullChargeForGalaxy-v$VNAME.apk"
 AAPT2=$T/aaptjs3-2.0.2/package/bin/x64/linux/aapt2
 ANDROID_JAR=$T/android-36.jar
 D8CP=$T/d8x/classes.jar:$T/d8x/classes2.jar:$T/d8x/classes3.jar
@@ -13,13 +19,13 @@ D8CP=$T/d8x/classes.jar:$T/d8x/classes2.jar:$T/d8x/classes3.jar
 rm -rf "$OUT" && mkdir -p "$OUT"/{flat,gen,classes,dex}
 
 # 1) Gradle이 하던 일: manifest에 package·uses-sdk 추가, tools: 속성 제거
-python3 - "$P/AndroidManifest.xml" "$OUT/AndroidManifest.xml" "$PKG" <<'EOF'
+python3 - "$P/AndroidManifest.xml" "$OUT/AndroidManifest.xml" "$PKG" "$VCODE" "$VNAME" <<'EOF'
 import re, sys
-src, dst, pkg = sys.argv[1:4]
+src, dst, pkg, vcode, vname = sys.argv[1:6]
 s = open(src, encoding="utf-8").read()
 s = re.sub(r'\s+xmlns:tools="[^"]*"', '', s)
 s = re.sub(r'\s+tools:\w+="[^"]*"', '', s)
-s = s.replace('<manifest ', f'<manifest package="{pkg}" android:versionCode="3" android:versionName="1.2" ', 1)
+s = s.replace('<manifest ', f'<manifest package="{pkg}" android:versionCode="{vcode}" android:versionName="{vname}" ', 1)
 s = re.sub(r'(<manifest[^>]*>)', r'\1\n    <uses-sdk android:minSdkVersion="34" android:targetSdkVersion="36" />', s, count=1)
 open(dst, "w", encoding="utf-8").write(s)
 EOF
@@ -44,4 +50,5 @@ java -cp "$DX" com.android.dx.command.Main --dex --min-sdk-version=26 \
 cp "$OUT/base.apk" "$OUT/unsigned.apk"
 ( cd "$OUT/dex" && zip -q -0 "$OUT/unsigned.apk" classes.dex )
 java -jar "$T/uber-apk-signer.jar" -a "$OUT/unsigned.apk" -o "$OUT/signed" --allowResign
-ls -la "$OUT/signed"
+cp "$OUT/signed/unsigned-aligned-debugSigned.apk" "$OUT/$APK_NAME"
+ls -la "$OUT/$APK_NAME"

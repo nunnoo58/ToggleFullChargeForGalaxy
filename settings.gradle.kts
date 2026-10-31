@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FullChargeOnce"
+rootProject.name = "ToggleFullChargeForGalaxy"
 include(":app")

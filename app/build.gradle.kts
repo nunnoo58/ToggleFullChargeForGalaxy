@@ -2,6 +2,10 @@ plugins {
     id("com.android.application")
 }
 
+// 버전명은 여기서만 바꾸면 APK 파일명에도 반영됨 (예: ToggleFullChargeForGalaxy-v1.2-debug.apk)
+val appVersionName = "1.2"
+val appVersionCode = 3
+
 android {
     namespace = "io.github.nunnoo58.fullcharge"
     compileSdk = 36
@@ -10,8 +14,8 @@ android {
         applicationId = "io.github.nunnoo58.fullcharge"
         minSdk = 34
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = appVersionCode
+        versionName = appVersionName
     }
 
     buildTypes {
@@ -29,6 +33,10 @@ android {
         // WRITE_SECURE_SETTINGS는 adb로 직접 부여하므로 경고 무시
         disable += "ProtectedPermissions"
     }
+}
+
+base {
+    archivesName.set("ToggleFullChargeForGalaxy-v$appVersionName")
 }
 
 // 외부 라이브러리 없음: 프레임워크 API만 사용
