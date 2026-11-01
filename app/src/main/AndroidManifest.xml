@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- adb로 1회 부여: adb shell pm grant io.github.nunnoo58.fullcharge android.permission.WRITE_SECURE_SETTINGS -->
+    <!-- adb로 1회 부여: adb shell pm grant io.github.nunnoo58.togglefullcharge android.permission.WRITE_SECURE_SETTINGS -->
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />

@@ -1,4 +1,4 @@
-package io.github.nunnoo58.fullcharge;
+package io.github.nunnoo58.togglefullcharge;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.content.Intent;
 /** 시간 초과 알람, 알림의 '지금 제한 복구' 버튼, 재부팅을 처리 */
 public class ActionReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_RESTORE = "io.github.nunnoo58.fullcharge.RESTORE";
+    public static final String ACTION_RESTORE = "io.github.nunnoo58.togglefullcharge.RESTORE";
 
     @Override
     public void onReceive(Context ctx, Intent intent) {

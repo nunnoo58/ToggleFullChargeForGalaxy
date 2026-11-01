@@ -1,4 +1,4 @@
-package io.github.nunnoo58.fullcharge;
+package io.github.nunnoo58.togglefullcharge;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

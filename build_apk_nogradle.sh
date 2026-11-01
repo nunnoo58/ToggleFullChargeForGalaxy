@@ -7,7 +7,7 @@ T=${TOOLS:?TOOLS 환경변수에 빌드 도구 폴더를 지정할 것}
 ROOT=$(cd "$(dirname "$0")" && pwd)
 P=$ROOT/app/src/main
 OUT=${OUT:-$ROOT/build-nogradle}
-PKG=io.github.nunnoo58.fullcharge
+PKG=io.github.nunnoo58.togglefullcharge
 # 버전은 app/build.gradle.kts에서 읽음
 VNAME=$(sed -n 's/^val appVersionName = "\(.*\)"/\1/p' "$ROOT/app/build.gradle.kts")
 VCODE=$(sed -n 's/^val appVersionCode = \([0-9]*\)/\1/p' "$ROOT/app/build.gradle.kts")

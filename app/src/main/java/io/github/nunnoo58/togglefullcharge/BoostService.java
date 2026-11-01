@@ -1,4 +1,4 @@
-package io.github.nunnoo58.fullcharge;
+package io.github.nunnoo58.togglefullcharge;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -23,8 +23,8 @@ import java.util.Date;
  */
 public class BoostService extends Service {
 
-    public static final String ACTION_TOGGLE = "io.github.nunnoo58.fullcharge.TOGGLE";
-    public static final String ACTION_START = "io.github.nunnoo58.fullcharge.START";
+    public static final String ACTION_TOGGLE = "io.github.nunnoo58.togglefullcharge.TOGGLE";
+    public static final String ACTION_START = "io.github.nunnoo58.togglefullcharge.START";
 
     private static final String CHANNEL = "boost";
     private static final int NOTI_ID = 1;
