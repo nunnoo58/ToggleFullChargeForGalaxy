@@ -3,6 +3,7 @@ package app.togglefullcharge;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 /** 햄버거 메뉴에서 여는 만든 사람·법적 고지 페이지 */
@@ -16,6 +17,11 @@ public class InfoActivity extends Activity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_info);
+
+        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { finish(); }
+        });
 
         TextView title = findViewById(R.id.title);
         TextView body = findViewById(R.id.body);

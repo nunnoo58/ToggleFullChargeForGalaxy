@@ -80,7 +80,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 6. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.4.apk
+adb install -r ToggleFullChargeForGalaxy-v1.4.1.apk
 Performing Streamed Install
 Success
 
@@ -94,7 +94,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from step 4 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.1.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.

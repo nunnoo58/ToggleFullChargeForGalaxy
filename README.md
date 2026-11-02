@@ -79,7 +79,7 @@ adb shell settings get global protect_battery
 ### 6. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.4.apk
+adb install -r ToggleFullChargeForGalaxy-v1.4.1.apk
 Performing Streamed Install
 Success
 
@@ -93,7 +93,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.1.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
