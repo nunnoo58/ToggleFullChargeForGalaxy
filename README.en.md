@@ -128,6 +128,37 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - The timeout alarm runs without the exact alarm permission, so it may be a few minutes late. While charging, the app also checks on every battery status change.
 - If you change Battery Protection directly in Settings while the limit is lifted, the value from just before lifting is written back when restoring.
 
+## Testing
+
+Results checked with v1.4.1 on a Galaxy S26 (One UI 9) on 2026-11-02. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+
+### Done
+
+- [x] Permission is kept after updating over the old version with adb (1.4 → 1.4.1)
+- [x] Opening the About and Legal notices pages from the menu (≡), and the back button
+- [x] Lifting the limit (`protect_battery` 0) and restoring it with the widget and the app button
+- [x] Restores when 100% is detected
+- [x] Stays lifted when the charger is reconnected within 15 seconds
+- [x] Restores when the charger stays disconnected for 15 seconds or more (including with the screen off)
+- [x] Stays lifted on disconnection when the unplug option is off
+- [x] When charging stalls for more than 90 seconds while connected, the notification shows a hint to reconnect the cable; the hint disappears when charging resumes
+- [x] Reboot while lifted: restores at the first unlock (stays lifted until then)
+- [x] Force-stopping the app while lifted: restores when the app is opened again (stays lifted until then)
+
+### To do
+
+- [ ] Stays lifted when the phone briefly shifts on a wireless charging pad
+- [ ] Restores when the set time runs out (check with the duration reduced to 1 hour)
+- [ ] Out-of-range duration values (0, 25, empty) are ignored
+- [ ] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
+- [ ] Message when tapped while Battery Protection is off
+- [ ] The "지금 제한 복구" (Restore limit now) button in the notification
+- [ ] Widget and app messages without the permission (the permission cannot be revoked with adb on this device, so a fresh install is needed)
+- [ ] Works with the notification permission denied
+- [ ] Dark mode screens
+- [ ] v1.4.1 on Galaxy S23 (One UI 9)
+- [ ] Galaxy Tab S8+ (One UI 8)
+
 ## License and disclaimer
 
 This project is distributed under the [MIT License](LICENSE). Anyone may freely use, copy, modify, and distribute it, provided the copyright notice and license text are included.
