@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="충전기 분리 시에도 바로 복구" />
+            android:text="충전기를 15초 이상 분리하면 복구" />
 
         <!-- 상태에 따라 "이번만 완전 충전" ↔ "지금 제한 복구"로 바뀌는 토글 버튼 -->
         <Button

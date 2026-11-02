@@ -79,7 +79,7 @@ adb shell settings get global protect_battery
 ### 6. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.3.apk
+adb install -r ToggleFullChargeForGalaxy-v1.4.apk
 Performing Streamed Install
 Success
 
@@ -93,7 +93,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.3.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
@@ -110,7 +110,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - 다음 중 하나가 되면 저장해 둔 값으로 되돌립니다.
   - 잔량 100% 또는 완충 상태 감지
   - 설정한 시간 초과 (기본 3시간)
-  - 충전기 분리 (옵션)
+  - 충전기를 15초 이상 분리 (옵션)
   - 알림의 "지금 제한 복구" 버튼, 위젯이나 앱 버튼을 다시 누름
   - 재부팅
 
@@ -122,7 +122,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 ## 알려진 한계
 
-- 무선 충전기를 사용한다면 "충전기 분리 시에도 바로 복구" 옵션은 꺼 두시기 바랍니다. 휴대폰이 패드에서 잠깐 어긋나기만 해도 분리로 감지됩니다.
+- "충전기를 15초 이상 분리하면 복구" 옵션은 분리 후 15초를 기다렸다가 복구합니다. 무선 충전 패드에서 잠깐 어긋났다가 15초 안에 다시 충전되면 복구하지 않지만, 15초보다 오래 어긋나 있으면 복구됩니다.
 - 시간 초과 알람은 정확한 알람 권한 없이 동작하므로 몇 분 늦을 수 있습니다. 충전 중에는 배터리 상태가 바뀔 때마다 추가로 확인합니다.
 - 제한을 해제한 동안 설정 앱에서 배터리 보호를 직접 바꾸면, 복구할 때 해제 직전 값으로 덮어씁니다.
 

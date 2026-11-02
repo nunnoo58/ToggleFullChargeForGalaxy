@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ServiceInfo;
 import android.os.BatteryManager;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -30,11 +32,20 @@ public class BoostService extends Service {
     private static final int NOTI_ID = 1;
     /** 제한 해제 후 이 시간이 지나도 충전이 재개되지 않으면 케이블 재연결 안내 */
     private static final long STALL_HINT_MS = 90_000L;
+    /** 분리 후 이 시간 안에 다시 연결되면 복구하지 않음 (무선 패드에서 잠깐 어긋나는 경우) */
+    private static final long UNPLUG_GRACE_MS = 15_000L;
 
     private BroadcastReceiver batteryReceiver;
     private boolean wasPlugged = false;
     private long startedAt;
     private boolean stallHintShown = false;
+
+    // 분리 중에는 배터리 방송이 뜸해서 유예 시간은 별도 타이머로 잼
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Runnable unplugRestore = new Runnable() {
+        @Override
+        public void run() { finishWith("충전기 분리 → 충전 제한 복구"); }
+    };
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -104,10 +115,11 @@ public class BoostService extends Service {
             finishWith("시간 초과 → 충전 제한 복구");
             return;
         }
-        // 3) 분리 시 복구 (옵션)
-        if (ChargeLimiter.restoreOnUnplug(this) && wasPlugged && !plugged) {
-            finishWith("충전기 분리 → 충전 제한 복구");
-            return;
+        // 3) 분리 시 복구 (옵션): 유예 시간 뒤 복구, 그 전에 다시 연결되면 취소
+        if (plugged) {
+            handler.removeCallbacks(unplugRestore);
+        } else if (wasPlugged && ChargeLimiter.restoreOnUnplug(this)) {
+            handler.postDelayed(unplugRestore, UNPLUG_GRACE_MS);
         }
         wasPlugged = plugged;
 
@@ -189,6 +201,7 @@ public class BoostService extends Service {
 
     @Override
     public void onDestroy() {
+        handler.removeCallbacks(unplugRestore);
         if (batteryReceiver != null) {
             unregisterReceiver(batteryReceiver);
             batteryReceiver = null;

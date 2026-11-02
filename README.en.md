@@ -80,7 +80,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 6. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.3.apk
+adb install -r ToggleFullChargeForGalaxy-v1.4.apk
 Performing Streamed Install
 Success
 
@@ -94,7 +94,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from step 4 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.3.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -111,7 +111,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - The saved value is restored when any of the following happens:
   - Battery reaches 100% or the full-charge state is detected
   - The set time runs out (3 hours by default)
-  - The charger is disconnected (optional)
+  - The charger stays disconnected for 15 seconds or more (optional)
   - The "지금 제한 복구" (Restore limit now) button in the notification is tapped, or the widget or app button is tapped again
   - The device reboots
 
@@ -123,7 +123,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Known limitations
 
-- If you use a wireless charger, keep the "충전기 분리 시에도 바로 복구" (Restore immediately when charger is disconnected) option off. Even a brief shift on the pad is detected as a disconnection.
+- The "충전기를 15초 이상 분리하면 복구" (Restore when the charger is disconnected for 15 seconds or more) option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
 - The timeout alarm runs without the exact alarm permission, so it may be a few minutes late. While charging, the app also checks on every battery status change.
 - If you change Battery Protection directly in Settings while the limit is lifted, the value from just before lifting is written back when restoring.
 
