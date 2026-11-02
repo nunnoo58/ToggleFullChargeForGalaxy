@@ -83,7 +83,7 @@ adb install -r ToggleFullChargeForGalaxy-v1.3.apk
 Performing Streamed Install
 Success
 
-adb shell pm grant io.github.nunnoo58.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
+adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 ```
 
 권한 부여 명령은 성공하면 아무것도 출력하지 않습니다. 앱을 열어 "권한: 부여됨"으로 표시되는지 확인한 뒤, 홈 화면에 위젯을 추가하면 됩니다.
@@ -96,7 +96,7 @@ adb shell pm grant io.github.nunnoo58.togglefullcharge android.permission.WRITE_
   adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.3.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
-- **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `io.github.nunnoo58.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
+- **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
 - **업데이트**: 새 버전도 `adb install -r`로 덮어 설치하면 권한이 그대로 유지됩니다. 앱을 삭제한 뒤 다시 설치했다면 권한 부여 명령을 다시 실행해야 합니다.
 - **페어링이 되지 않는 경우**: 학교·회사 Wi-Fi처럼 기기 간 통신을 막아 둔 네트워크에서는 연결되지 않을 수 있습니다. 이때는 PC와 휴대폰을 같은 핫스팟에 연결하거나, USB 케이블로 연결한 뒤(개발자 옵션 → USB 디버깅) 3·4번을 건너뛰고 진행합니다.
 - **PowerShell을 사용하는 경우**: 현재 폴더의 프로그램을 실행하려면 `adb` 대신 `.\adb`를 입력합니다.

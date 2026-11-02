@@ -84,7 +84,7 @@ adb install -r ToggleFullChargeForGalaxy-v1.3.apk
 Performing Streamed Install
 Success
 
-adb shell pm grant io.github.nunnoo58.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
+adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 ```
 
 The permission command prints nothing when it succeeds. Open the app, check that it shows "권한: 부여됨" (Permission: granted), and then add the widget to your home screen.
@@ -97,7 +97,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
   adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.3.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
-- **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `io.github.nunnoo58.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
+- **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
 - **Updating**: Installing a new version over the old one with `adb install -r` keeps the permission. If you uninstalled the app and installed it again, run the permission command again.
 - **If pairing fails**: Networks that block device-to-device traffic, such as school or office Wi-Fi, may prevent connecting. In that case, connect the PC and phone to the same hotspot, or connect with a USB cable (Developer options → USB debugging) and skip steps 3 and 4.
 - **Using PowerShell**: To run a program in the current folder, type `.\adb` instead of `adb`.

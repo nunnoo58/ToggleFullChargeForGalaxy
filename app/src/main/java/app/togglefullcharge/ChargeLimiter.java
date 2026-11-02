@@ -1,4 +1,4 @@
-package io.github.nunnoo58.togglefullcharge;
+package app.togglefullcharge;
 
 import android.Manifest;
 import android.app.AlarmManager;

@@ -7,11 +7,11 @@ val appVersionName = "1.3"
 val appVersionCode = 4
 
 android {
-    namespace = "io.github.nunnoo58.togglefullcharge"
+    namespace = "app.togglefullcharge"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "io.github.nunnoo58.togglefullcharge"
+        applicationId = "app.togglefullcharge"
         minSdk = 34
         targetSdk = 36
         versionCode = appVersionCode

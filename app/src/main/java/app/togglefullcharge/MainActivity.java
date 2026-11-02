@@ -1,4 +1,4 @@
-package io.github.nunnoo58.togglefullcharge;
+package app.togglefullcharge;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,10 +10,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 + " android.permission.WRITE_SECURE_SETTINGS");
 
         toggle = findViewById(R.id.toggle);
+        findViewById(R.id.menu).setOnClickListener(this);
         findViewById(R.id.copy).setOnClickListener(this);
         toggle.setOnClickListener(this);
         findViewById(R.id.refresh).setOnClickListener(this);
@@ -83,7 +86,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.copy) {
+        if (id == R.id.menu) {
+            PopupMenu menu = new PopupMenu(this, v);
+            menu.getMenu().add(0, InfoActivity.PAGE_ABOUT, 0, "만든 사람");
+            menu.getMenu().add(0, InfoActivity.PAGE_LEGAL, 1, "법적 고지");
+            menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    startActivity(new Intent(MainActivity.this, InfoActivity.class)
+                            .putExtra(InfoActivity.EXTRA_PAGE, item.getItemId()));
+                    return true;
+                }
+            });
+            menu.show();
+        } else if (id == R.id.copy) {
             getSystemService(ClipboardManager.class)
                     .setPrimaryClip(ClipData.newPlainText("adb", adbCmd.getText()));
             Toast.makeText(this, "복사됨", Toast.LENGTH_SHORT).show();
