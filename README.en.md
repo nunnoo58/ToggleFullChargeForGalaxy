@@ -10,15 +10,10 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app's interface is in Korean. The on-screen labels referred to below are given as "Korean (English meaning)".
 
-## Latest version: v1.5 (2026-11-03)
+## Latest version: v1.5.1 (2026-11-04)
 
-- The charge limit is now restored after a reboot even before the phone is unlocked (previously it was restored at the first unlock)
-- Removed the system top bar, fixing the app name being shown twice
-- Status bar icons are now dark in light mode
-- The notification permission is requested only once (not asked again after being denied)
-- The screen updates immediately when the Battery Protection setting changes (fixes the status staying "Maximum" right after starting a full charge)
-- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1\~24)" (Maximum duration (1–24))
-- Security: closed the receiver so other apps cannot send the restore signal
+- Changed the license from MIT to CC BY-ND 4.0 (unmodified copies may be redistributed with credit; modified versions may not be distributed; versions 1.5 and earlier stay under MIT)
+- Updated the Legal notices page in the app with the new license
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
@@ -106,7 +101,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 4. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.5.apk
+adb install -r ToggleFullChargeForGalaxy-v1.5.1.apk
 Performing Streamed Install
 Success
 
@@ -120,7 +115,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change while connected over Wi-Fi**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from the connect step in 2-2 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.1.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -191,7 +186,9 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 
 ## License and disclaimer
 
-This project is distributed under the [MIT License](LICENSE). Anyone may freely use, copy, modify, and distribute it, provided the copyright notice and license text are included.
+Starting with v1.5.1, this project is distributed under the [Creative Commons Attribution-NoDerivatives 4.0 International License (CC BY-ND 4.0)](LICENSE). You may copy and redistribute it unmodified, including for commercial purposes, as long as you give credit (the author NUNNOO58 and this repository). You may not distribute modified versions.
+
+Versions 1.5 and earlier were released under the MIT License, and the MIT terms continue to apply to those versions.
 
 This is an unofficial personal project and is not affiliated with Samsung Electronics or Apple. Samsung, Galaxy, and One UI are trademarks of Samsung Electronics, and Mac is a trademark of Apple Inc.; they are used in this repository only to describe compatible devices and features.
 

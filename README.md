@@ -9,15 +9,10 @@ Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입�
 - 루트 권한은 필요하지 않습니다. 대신 `WRITE_SECURE_SETTINGS` 권한을 adb로 한 번 부여해야 합니다.
 - 테스트 완료: 갤럭시 S23, S26 (One UI 9), 갤럭시 Tab S8+ (One UI 8)
 
-## 최신 버전: v1.5 (2026-11-03)
+## 최신 버전: v1.5.1 (2026-11-04)
 
-- 재부팅 후 잠금을 해제하기 전에도 충전 제한 복구 (이전에는 처음 잠금을 해제할 때 복구)
-- 시스템 상단 바를 없애 앱 이름이 두 번 표시되던 문제 수정
-- 라이트 모드에서 상태 표시줄 아이콘을 어둡게 표시
-- 알림 권한은 처음 한 번만 요청 (거부하면 다시 묻지 않음)
-- 배터리 보호 설정이 바뀌면 화면에 바로 반영 (완충 시작 직후 "최대"로 남던 표시 오류 수정)
-- 상태 표시에서 내부 값(`protect_battery`, `threshold`, 복구 대상 값)을 빼고, "최대 유지 시간(1\~24)"으로 문구 정리
-- 보안: 다른 앱이 복구 신호를 보내지 못하도록 수신기를 닫음
+- 라이선스를 MIT에서 CC BY-ND 4.0으로 변경 (출처를 밝히면 원본 그대로 재배포 가능, 수정본 배포는 금지. v1.5 이하는 MIT 유지)
+- 앱의 법적 고지 페이지에 새 라이선스 반영
 
 이전 버전의 변경 내역은 [CHANGELOG.md](CHANGELOG.md), APK는 [최신 릴리스](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest)에서 볼 수 있습니다.
 
@@ -105,7 +100,7 @@ adb shell settings get global protect_battery
 ### 4. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.5.apk
+adb install -r ToggleFullChargeForGalaxy-v1.5.1.apk
 Performing Streamed Install
 Success
 
@@ -119,7 +114,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **무선 연결 중 재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 2-2의 연결 단계부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.1.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
@@ -190,7 +185,9 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 ## 라이선스 및 면책
 
-이 프로젝트는 [MIT 라이선스](LICENSE)로 배포됩니다. 누구나 자유롭게 사용, 복사, 수정, 배포할 수 있으며, 이때 저작권 표시와 라이선스 문구를 함께 포함해야 합니다.
+이 프로젝트는 v1.5.1부터 [크리에이티브 커먼즈 저작자표시-변경금지 4.0 국제 라이선스(CC BY-ND 4.0)](LICENSE)로 배포됩니다. 출처(저작자 NUNNOO58과 이 저장소)를 밝히면 상업적 목적을 포함해 원본 그대로 복사하고 재배포할 수 있습니다. 수정한 버전은 배포할 수 없습니다.
+
+v1.5 이하는 MIT 라이선스로 배포되었으며, 해당 버전에는 MIT 조건이 그대로 적용됩니다.
 
 이 프로젝트는 삼성전자 및 Apple과 관련이 없는 비공식 개인 프로젝트입니다. Samsung, Galaxy, One UI는 삼성전자의 상표이고 Mac은 Apple Inc.의 상표이며, 이 저장소에서는 호환 기기와 기능을 설명하는 용도로만 사용합니다.
 

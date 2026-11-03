@@ -4,6 +4,11 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v1.5.1 (2026-11-04)
+
+- Changed the license from MIT to CC BY-ND 4.0 (unmodified copies may be redistributed with credit; modified versions may not be distributed; versions 1.5 and earlier stay under MIT)
+- Updated the Legal notices page in the app with the new license
+
 ## v1.5 (2026-11-03)
 
 - The charge limit is now restored after a reboot even before the phone is unlocked (previously it was restored at the first unlock)
