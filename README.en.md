@@ -32,15 +32,32 @@ Install the app and grant the permission from a PC using adb. The steps below us
 2. Download `ToggleFullChargeForGalaxy-v<version>.apk` from [Releases](../../releases) and put it in the same folder.
 3. Open a Command Prompt in that folder. Typing `cmd` in File Explorer's address bar and pressing Enter opens it right there.
 
-### 2. Turn on wireless debugging on the phone
+### 2. Connect the phone
 
-1. Go to Settings → About phone → Software information and tap **Build number** 7 times until you see "Developer mode has been turned on."
-2. Go to Settings → Developer options and turn on **Wireless debugging**.
-3. The PC and phone must be on the **same Wi-Fi network**.
+First, turn on Developer options. Go to Settings → About phone → Software information and tap **Build number** 7 times until you see "Developer mode has been turned on."
 
-### 3. Pair (once per device)
+Then connect using either a cable (2-1) or Wi-Fi (2-2). If you have a USB cable, the wired method is simpler.
 
-On the phone, go to Wireless debugging → **Pair device with pairing code**. A screen like this appears:
+#### 2-1. Connect with a USB cable
+
+1. Go to Settings → Developer options and turn on **USB debugging**.
+2. Connect the PC and phone with a USB cable. Charge-only cables do not carry data and will not work.
+3. When the phone asks "Allow USB debugging?", check **Always allow from this computer** and tap Allow.
+4. Check that the device appears in the list.
+
+```
+adb devices
+List of devices attached
+R3XXXXXXXXX      device
+```
+
+If it shows `unauthorized`, check the prompt on the phone. If the list is empty, check the cable and the USB debugging setting. Once connected, go to step 3.
+
+#### 2-2. Connect over Wi-Fi
+
+Go to Settings → Developer options and turn on **Wireless debugging**. The PC and phone must be on the **same Wi-Fi network**.
+
+**Pair (once per device)**: On the phone, go to Wireless debugging → **Pair device with pairing code**. A screen like this appears:
 
 ```
 Wi-Fi pairing code:  123456
@@ -55,9 +72,7 @@ Enter pairing code: 123456
 Successfully paired to 192.168.xxx.xxx:xxxxx
 ```
 
-### 4. Connect
-
-After closing the pairing dialog, the main Wireless debugging screen shows a separate **IP address & Port**. This port is different from the pairing port.
+**Connect**: After closing the pairing dialog, the main Wireless debugging screen shows a separate **IP address & Port**. This port is different from the pairing port.
 
 ```
 IP address & Port:   192.168.xxx.xxx:xxxxx
@@ -74,7 +89,7 @@ List of devices attached
 192.168.xxx.xxx:xxxxx      device
 ```
 
-### 5. Check compatibility
+### 3. Check compatibility
 
 ```
 adb shell getprop ro.build.version.oneui
@@ -88,7 +103,7 @@ The first result is the One UI version (80000 is One UI 8, 90000 is One UI 9).
 
 If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `null`, the device does not have this setting and the app will not work.
 
-### 6. Install and grant the permission
+### 4. Install and grant the permission
 
 ```
 adb install -r ToggleFullChargeForGalaxy-v1.5.apk
@@ -102,7 +117,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ### Notes
 
-- **After a reboot or a Wi-Fi change**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from step 4 using the newly shown address. You do not need to pair again.
+- **After a reboot or a Wi-Fi change while connected over Wi-Fi**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from the connect step in 2-2 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
   adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.apk
@@ -111,7 +126,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
 - **1.2 release removed**: Versions 1.2 and earlier were signed with a publicly known debug key, so anyone could build an APK signed with the same key that installs over the old app and inherits the permission granted via adb. The 1.2 release was removed because of this security issue. If you have 1.2 or earlier installed, uninstall it as described above and move to the latest version.
 - **Updating**: Installing a new version over the old one with `adb install -r` keeps the permission. If you uninstalled the app and installed it again, run the permission command again.
-- **If pairing fails**: Networks that block device-to-device traffic, such as school or office Wi-Fi, may prevent connecting. In that case, connect the PC and phone to the same hotspot, or connect with a USB cable (Developer options → USB debugging) and skip steps 3 and 4.
+- **If wireless pairing fails**: Networks that block device-to-device traffic, such as school or office Wi-Fi, may prevent connecting. In that case, connect the PC and phone to the same hotspot, or use the wired connection in 2-1.
 - **Using PowerShell**: To run a program in the current folder, type `.\adb` instead of `adb`.
 - **macOS**: The commands are the same. In Terminal, go to the platform-tools folder and run `./adb`. sudo is not required.
 
