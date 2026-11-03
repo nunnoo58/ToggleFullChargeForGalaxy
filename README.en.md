@@ -130,7 +130,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1, 2026-11-02) and a Galaxy Tab S8+ (One UI 8, v1.4.2, 2026-11-03). Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI 9, v1.4.3), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–03. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -154,12 +154,12 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1, 2026-11-02) and a Galaxy Tab 
 - [x] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
 - [x] Tapping while Battery Protection is off shows "배터리 보호가 이미 꺼져 있음" (Battery Protection is already off)
 - [x] Dark and light mode screens (main, About, Legal notices)
+- [x] An out-of-range duration such as 25 reverts to the saved value with a message, and starting a full charge right after typing it uses the saved value (v1.4.3, S26 and S23)
+- [x] On Galaxy S23 (One UI 9): removing the old app (1.1), installing v1.4.3, lifting and restoring, 100% detection, and the 15-second grace period
 
 ### To do
 
-- [ ] Verify the fix for out-of-range durations whose first digit is valid (such as 25) being saved as the first digit
 - [ ] The "!" widget indicator without the permission
-- [ ] Latest version on Galaxy S23 (One UI 9)
 
 ## License and disclaimer
 
