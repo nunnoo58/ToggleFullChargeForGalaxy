@@ -128,7 +128,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **Updating**: Installing a new version over the old one with `adb install -r` keeps the permission. If you uninstalled the app and installed it again, run the permission command again.
 - **If wireless pairing fails**: Networks that block device-to-device traffic, such as school or office Wi-Fi, may prevent connecting. In that case, connect the PC and phone to the same hotspot, or use the wired connection in 2-1.
 - **Using PowerShell**: To run a program in the current folder, type `.\adb` instead of `adb`.
-- **macOS**: The commands are the same. In Terminal, go to the platform-tools folder and run `./adb`. sudo is not required.
+- **macOS**: The commands are the same. In Terminal, go to the platform-tools folder and run `./adb`.
 
 ## How it works
 

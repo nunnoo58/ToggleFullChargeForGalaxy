@@ -127,7 +127,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **업데이트**: 새 버전도 `adb install -r`로 덮어 설치하면 권한이 그대로 유지됩니다. 앱을 삭제한 뒤 다시 설치했다면 권한 부여 명령을 다시 실행해야 합니다.
 - **무선 페어링이 되지 않는 경우**: 학교·회사 Wi-Fi처럼 기기 간 통신을 막아 둔 네트워크에서는 연결되지 않을 수 있습니다. 이때는 PC와 휴대폰을 같은 핫스팟에 연결하거나, 2-1의 유선 연결로 진행합니다.
 - **PowerShell을 사용하는 경우**: 현재 폴더의 프로그램을 실행하려면 `adb` 대신 `.\adb`를 입력합니다.
-- **macOS**: 명령은 같습니다. 터미널에서 platform-tools 폴더로 이동한 뒤 `./adb`로 실행하며, sudo는 필요하지 않습니다.
+- **macOS**: 명령은 같습니다. 터미널에서 platform-tools 폴더로 이동한 뒤 `./adb`로 실행합니다.
 
 ## 동작 원리
 
