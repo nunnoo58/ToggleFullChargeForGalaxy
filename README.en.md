@@ -7,8 +7,7 @@
 An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap the widget to temporarily turn off One UI Battery Protection (Maximum, 80%), and the original limit is restored once the battery is full or a set time has passed.
 
 - No root required. Instead, the `WRITE_SECURE_SETTINGS` permission must be granted once via adb.
-- Tested on: Galaxy S23, S26 (One UI 9)
-- Planned: Galaxy Tab S8+ (One UI 8)
+- Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app's interface is in Korean. The on-screen labels referred to below are given as "Korean (English meaning)".
 
 ## Installation
@@ -127,10 +126,11 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - The "충전기를 15초 이상 분리하면 복구" (Restore when the charger is disconnected for 15 seconds or more) option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
 - The timeout alarm runs without the exact alarm permission, so it may be a few minutes late. While charging, the app also checks on every battery status change.
 - If you change Battery Protection directly in Settings while the limit is lifted, the value from just before lifting is written back when restoring.
+- In v1.4.2 and earlier, entering an out-of-range maximum duration whose first digit is valid, such as 25, saves only the first digit (2). The screen shows 25 but 2 hours is applied, so enter a value from 1 to 24 only.
 
 ## Testing
 
-Results checked with v1.4.1 on a Galaxy S26 (One UI 9) on 2026-11-02. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1, 2026-11-02) and a Galaxy Tab S8+ (One UI 8, v1.4.2, 2026-11-03). Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -147,17 +147,19 @@ Results checked with v1.4.1 on a Galaxy S26 (One UI 9) on 2026-11-02. Charger di
 - [x] Stays lifted when the phone briefly shifts on a wireless charging pad
 - [x] Restores when the set time runs out
 - [x] Restores with the "지금 제한 복구" (Restore limit now) button in the notification
+- [x] Compatibility check, installation, and permission grant on Galaxy Tab S8+ (One UI 8)
+- [x] App messages without the permission (status line, adb command box, "권한 없음" (No permission) toast)
+- [x] Works with the notification permission denied
+- [x] Entering 0 or an empty duration is ignored and the previous value is kept
+- [x] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
+- [x] Tapping while Battery Protection is off shows "배터리 보호가 이미 꺼져 있음" (Battery Protection is already off)
+- [x] Dark and light mode screens (main, About, Legal notices)
 
 ### To do
 
-- [ ] Out-of-range duration values (0, 25, empty) are ignored
-- [ ] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
-- [ ] Message when tapped while Battery Protection is off
-- [ ] Widget and app messages without the permission (the permission cannot be revoked with adb on this device, so a fresh install is needed)
-- [ ] Works with the notification permission denied
-- [ ] Dark mode screens
-- [ ] v1.4.1 on Galaxy S23 (One UI 9)
-- [ ] Galaxy Tab S8+ (One UI 8)
+- [ ] Verify the fix for out-of-range durations whose first digit is valid (such as 25) being saved as the first digit
+- [ ] The "!" widget indicator without the permission
+- [ ] Latest version on Galaxy S23 (One UI 9)
 
 ## License and disclaimer
 
