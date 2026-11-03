@@ -8,8 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +28,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private TextView status;
     private TextView adbCmd;
     private Button toggle;
+    private EditText hours;
 
     // 리스너는 약한 참조로 등록되므로 필드로 붙잡아 둠
     private final SharedPreferences.OnSharedPreferenceChangeListener stateListener =
@@ -55,16 +55,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         toggle.setOnClickListener(this);
         findViewById(R.id.refresh).setOnClickListener(this);
 
-        EditText hours = findViewById(R.id.hours);
+        hours = findViewById(R.id.hours);
         hours.setText(String.valueOf(ChargeLimiter.hours(this)));
-        hours.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int a, int c, int d) {}
-            public void onTextChanged(CharSequence s, int a, int c, int d) {}
-            public void afterTextChanged(Editable e) {
-                try {
-                    int h = Integer.parseInt(e.toString());
-                    if (h >= 1 && h <= 24) ChargeLimiter.setHours(MainActivity.this, h);
-                } catch (NumberFormatException ignored) {}
+        // 글자마다 저장하면 "25"를 칠 때 "2"가 먼저 저장되므로, 입력을 마칠 때 한 번만 반영
+        hours.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent e) {
+                commitHours();
+                return false;  // 기본 동작(키보드 닫기)은 그대로
+            }
+        });
+        hours.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) commitHours();
             }
         });
 
@@ -104,6 +108,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     .setPrimaryClip(ClipData.newPlainText("adb", adbCmd.getText()));
             Toast.makeText(this, "복사됨", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toggle) {
+            // 입력란에 포커스가 남은 채 누르면 포커스 이동이 없으므로 여기서 반영
+            commitHours();
             // 위젯과 같은 토글: 해제 중이면 복구, 아니면 이번만 완전 충전
             if (ChargeLimiter.isActive(this)) {
                 ChargeLimiter.restore(this);
@@ -128,8 +134,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onPause() {
+        commitHours();
         ChargeLimiter.unlisten(this, stateListener);
         super.onPause();
+    }
+
+    /** 입력값이 1~24면 저장, 아니면 저장된 값으로 되돌림 (화면 값과 실제 값을 항상 일치시킴) */
+    private void commitHours() {
+        try {
+            int h = Integer.parseInt(hours.getText().toString());
+            if (h >= 1 && h <= 24) {
+                ChargeLimiter.setHours(this, h);
+                return;
+            }
+        } catch (NumberFormatException ignored) {}
+        String saved = String.valueOf(ChargeLimiter.hours(this));
+        if (!saved.contentEquals(hours.getText())) {
+            hours.setText(saved);
+            Toast.makeText(this, "유지 시간은 1~24시간만 가능", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void refresh() {
