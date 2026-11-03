@@ -17,7 +17,7 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Status bar icons are now dark in light mode
 - The notification permission is requested only once (not asked again after being denied)
 - The screen updates immediately when the Battery Protection setting changes (fixes the status staying "Maximum" right after starting a full charge)
-- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1~24)" (Maximum duration (1–24))
+- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1\~24)" (Maximum duration (1–24))
 - Security: closed the receiver so other apps cannot send the restore signal
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).

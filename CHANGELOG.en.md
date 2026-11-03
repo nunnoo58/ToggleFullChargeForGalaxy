@@ -11,7 +11,7 @@ The APK for each version is available on the [Releases](https://github.com/nunno
 - Status bar icons are now dark in light mode
 - The notification permission is requested only once (not asked again after being denied)
 - The screen updates immediately when the Battery Protection setting changes (fixes the status staying "Maximum" right after starting a full charge)
-- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1~24)" (Maximum duration (1–24))
+- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1\~24)" (Maximum duration (1–24))
 - Security: closed the receiver so other apps cannot send the restore signal
 
 ## v1.4.3 (2026-11-03)
