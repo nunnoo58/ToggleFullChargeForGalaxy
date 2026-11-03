@@ -144,15 +144,15 @@ Results checked with v1.4.1 on a Galaxy S26 (One UI 9) on 2026-11-02. Charger di
 - [x] When charging stalls for more than 90 seconds while connected, the notification shows a hint to reconnect the cable; the hint disappears when charging resumes
 - [x] Reboot while lifted: restores at the first unlock (stays lifted until then)
 - [x] Force-stopping the app while lifted: restores when the app is opened again (stays lifted until then)
+- [x] Stays lifted when the phone briefly shifts on a wireless charging pad
+- [x] Restores when the set time runs out
+- [x] Restores with the "지금 제한 복구" (Restore limit now) button in the notification
 
 ### To do
 
-- [ ] Stays lifted when the phone briefly shifts on a wireless charging pad
-- [ ] Restores when the set time runs out (check with the duration reduced to 1 hour)
 - [ ] Out-of-range duration values (0, 25, empty) are ignored
 - [ ] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
 - [ ] Message when tapped while Battery Protection is off
-- [ ] The "지금 제한 복구" (Restore limit now) button in the notification
 - [ ] Widget and app messages without the permission (the permission cannot be revoked with adb on this device, so a fresh install is needed)
 - [ ] Works with the notification permission denied
 - [ ] Dark mode screens
