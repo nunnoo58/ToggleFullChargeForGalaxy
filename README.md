@@ -9,6 +9,18 @@ Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입�
 - 루트 권한은 필요하지 않습니다. 대신 `WRITE_SECURE_SETTINGS` 권한을 adb로 한 번 부여해야 합니다.
 - 테스트 완료: 갤럭시 S23, S26 (One UI 9), 갤럭시 Tab S8+ (One UI 8)
 
+## 최신 버전: v1.5 (2026-11-03)
+
+- 재부팅 후 잠금을 해제하기 전에도 충전 제한 복구 (이전에는 처음 잠금을 해제할 때 복구)
+- 시스템 상단 바를 없애 앱 이름이 두 번 표시되던 문제 수정
+- 라이트 모드에서 상태 표시줄 아이콘을 어둡게 표시
+- 알림 권한은 처음 한 번만 요청 (거부하면 다시 묻지 않음)
+- 배터리 보호 설정이 바뀌면 화면에 바로 반영 (완충 시작 직후 "최대"로 남던 표시 오류 수정)
+- 상태 표시에서 내부 값(`protect_battery`, `threshold`, 복구 대상 값)을 빼고, "최대 유지 시간(1~24)"으로 문구 정리
+- 보안: 다른 앱이 복구 신호를 보내지 못하도록 수신기를 닫음
+
+이전 버전의 변경 내역은 [CHANGELOG.md](CHANGELOG.md), APK는 [최신 릴리스](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest)에서 볼 수 있습니다.
+
 ## 설치
 
 PC에서 adb로 앱을 설치하고 권한을 부여합니다. 아래 설명은 Windows 명령 프롬프트(CMD)를 기준으로 하며, 예시의 IP 주소·포트·페어링 코드는 모두 가상의 값입니다. 실제로는 휴대폰 화면에 표시되는 값을 입력해 주세요.
@@ -78,7 +90,7 @@ adb shell settings get global protect_battery
 ### 6. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.4.3.apk
+adb install -r ToggleFullChargeForGalaxy-v1.5.apk
 Performing Streamed Install
 Success
 
@@ -92,7 +104,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 4번 연결부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.3.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
@@ -129,7 +141,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 ## 테스트
 
-갤럭시 S26(One UI 9, v1.4.1~1.4.3), 갤럭시 S23(One UI 9, v1.4.3), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02~03에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
+갤럭시 S26(One UI 9, v1.4.1~1.4.3), 갤럭시 S23(One UI 9, v1.4.3~1.5), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02~03에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
 
 ### 완료
 
@@ -141,7 +153,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - [x] 충전기를 15초 이상 분리하면 복구 (화면이 꺼진 상태 포함)
 - [x] 분리 복구 옵션을 끄면 분리해도 해제 유지
 - [x] 연결된 채 90초 넘게 충전이 멈추면 알림에 케이블 재연결 안내 표시, 충전이 재개되면 안내 사라짐
-- [x] 해제 중 재부팅: 처음 잠금을 해제할 때 복구 (잠금 해제 전까지는 해제 상태 유지)
+- [x] 해제 중 재부팅: 잠금을 해제하기 전 부팅 단계에서 복구 (v1.5, S23. v1.4.3 이하는 처음 잠금을 해제할 때 복구)
 - [x] 해제 중 앱 강제 종료: 앱을 다시 열 때 복구 (다시 열기 전까지는 해제 상태 유지)
 - [x] 무선 충전 패드에서 잠깐 어긋났을 때 해제 유지
 - [x] 설정한 시간이 지나면 복구
@@ -156,6 +168,10 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - [x] 유지 시간에 25처럼 범위 밖 값을 넣으면 저장된 값으로 되돌리고 안내, 입력한 채 바로 완충해도 저장된 값 적용 (v1.4.3, S26·S23)
 - [x] 갤럭시 S23(One UI 9)에서 옛 앱(1.1) 삭제 후 v1.4.3 설치, 해제와 복구, 잔량 100% 감지, 15초 유예
 - [x] 권한이 없을 때 위젯에 "!"와 "권한 필요" 표시, 누르면 앱이 열림 (S23)
+- [x] 업데이트(1.4.3 → 1.5)해도 유지 시간, 분리 옵션, 완충 중 상태 유지 (S23)
+- [x] 알림 권한은 처음 한 번만 요청하고, 거부한 뒤 다시 실행하거나 테마를 바꿔도 다시 묻지 않음 (v1.5, S23)
+- [x] 완충 시작 직후와 설정 앱에서 배터리 보호를 바꿨을 때 화면에 바로 반영 (v1.5, S23)
+- [x] 앱 이름이 한 번만 표시되고, 라이트 모드에서 상태 표시줄 아이콘이 어둡게 보임 (v1.5, S23)
 
 ## 라이선스 및 면책
 

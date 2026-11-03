@@ -10,6 +10,18 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app's interface is in Korean. The on-screen labels referred to below are given as "Korean (English meaning)".
 
+## Latest version: v1.5 (2026-11-03)
+
+- The charge limit is now restored after a reboot even before the phone is unlocked (previously it was restored at the first unlock)
+- Removed the system top bar, fixing the app name being shown twice
+- Status bar icons are now dark in light mode
+- The notification permission is requested only once (not asked again after being denied)
+- The screen updates immediately when the Battery Protection setting changes (fixes the status staying "Maximum" right after starting a full charge)
+- Removed internal values (`protect_battery`, `threshold`, the value to restore) from the status, and shortened the label to "최대 유지 시간(1~24)" (Maximum duration (1–24))
+- Security: closed the receiver so other apps cannot send the restore signal
+
+See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
+
 ## Installation
 
 Install the app and grant the permission from a PC using adb. The steps below use the Windows Command Prompt (CMD). All IP addresses, ports, and pairing codes in the examples are placeholders; enter the values shown on your phone's screen.
@@ -79,7 +91,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 6. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.4.3.apk
+adb install -r ToggleFullChargeForGalaxy-v1.5.apk
 Performing Streamed Install
 Success
 
@@ -93,7 +105,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from step 4 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.4.3.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -130,7 +142,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI 9, v1.4.3), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–03. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–03. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -142,7 +154,7 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 - [x] Restores when the charger stays disconnected for 15 seconds or more (including with the screen off)
 - [x] Stays lifted on disconnection when the unplug option is off
 - [x] When charging stalls for more than 90 seconds while connected, the notification shows a hint to reconnect the cable; the hint disappears when charging resumes
-- [x] Reboot while lifted: restores at the first unlock (stays lifted until then)
+- [x] Reboot while lifted: restores during boot before the phone is unlocked (v1.5, S23; v1.4.3 and earlier restore at the first unlock)
 - [x] Force-stopping the app while lifted: restores when the app is opened again (stays lifted until then)
 - [x] Stays lifted when the phone briefly shifts on a wireless charging pad
 - [x] Restores when the set time runs out
@@ -157,6 +169,10 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 - [x] An out-of-range duration such as 25 reverts to the saved value with a message, and starting a full charge right after typing it uses the saved value (v1.4.3, S26 and S23)
 - [x] On Galaxy S23 (One UI 9): removing the old app (1.1), installing v1.4.3, lifting and restoring, 100% detection, and the 15-second grace period
 - [x] Without the permission, the widget shows "!" and "권한 필요" (Permission needed), and tapping it opens the app (S23)
+- [x] Updating (1.4.3 → 1.5) keeps the duration, the unplug option, and an ongoing full charge (S23)
+- [x] The notification permission is requested only once and not asked again after denial, relaunch, or a theme change (v1.5, S23)
+- [x] The screen updates immediately right after starting a full charge and when Battery Protection is changed in Settings (v1.5, S23)
+- [x] The app name is shown once, and status bar icons are dark in light mode (v1.5, S23)
 
 ## License and disclaimer
 

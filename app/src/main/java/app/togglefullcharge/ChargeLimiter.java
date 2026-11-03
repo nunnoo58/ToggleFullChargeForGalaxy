@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.UserManager;
 import android.provider.Settings;
 
 /**
@@ -71,8 +72,17 @@ public final class ChargeLimiter {
 
     // ---------- 상태 저장 ----------
 
+    private static boolean migrated = false;
+
+    /** 재부팅 후 잠금 해제 전에도 읽을 수 있도록 기기 보호 저장소에 둠 */
     private static SharedPreferences prefs(Context ctx) {
-        return ctx.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        Context dp = ctx.createDeviceProtectedStorageContext();
+        // 1.4.3 이하에서 쓰던 일반 저장소의 값을 한 번 옮김 (일반 저장소는 잠금 해제 후에만 읽을 수 있음)
+        if (!migrated && ctx.getSystemService(UserManager.class).isUserUnlocked()) {
+            dp.moveSharedPreferencesFrom(ctx, PREFS);
+            migrated = true;
+        }
+        return dp.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
     }
 
     public static void listen(Context ctx, SharedPreferences.OnSharedPreferenceChangeListener l) {

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.UserManager;
 import android.widget.RemoteViews;
 
 import java.text.DateFormat;
@@ -20,6 +21,8 @@ public class ChargeWidgetProvider extends AppWidgetProvider {
     }
 
     public static void updateAll(Context ctx) {
+        // 재부팅 후 잠금 해제 전에는 위젯 서비스를 쓸 수 없음. 해제 후 BOOT_COMPLETED에서 다시 갱신됨
+        if (!ctx.getSystemService(UserManager.class).isUserUnlocked()) return;
         AppWidgetManager mgr = AppWidgetManager.getInstance(ctx);
         int[] ids = mgr.getAppWidgetIds(new ComponentName(ctx, ChargeWidgetProvider.class));
         if (ids.length > 0) render(ctx, mgr, ids);

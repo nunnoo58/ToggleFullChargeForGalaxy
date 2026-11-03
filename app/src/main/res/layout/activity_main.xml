@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="최대 유지 시간(시간, 1~24)" />
+                android:text="최대 유지 시간(1~24)" />
 
             <EditText
                 android:id="@+id/hours"

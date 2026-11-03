@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 화면 안에 제목이 있으므로 시스템 액션바는 숨김 -->
+    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault.DayNight">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- 밝은 배경에서는 상태 표시줄 아이콘을 어둡게 (값은 values / values-night의 bools.xml) -->
+        <item name="android:windowLightStatusBar">@bool/light_status_bar</item>
+    </style>
+</resources>

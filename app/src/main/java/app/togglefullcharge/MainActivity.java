@@ -7,7 +7,11 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +42,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     refresh();
                 }
             };
+
+    // 배터리 보호 설정 값이 바뀌어도 바로 갱신 (완충 시작은 상태 저장 뒤에 설정을 바꾸고, 설정 앱에서 직접 바꿀 수도 있음)
+    private final ContentObserver settingsObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
+        @Override
+        public void onChange(boolean selfChange) {
+            refresh();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle b) {
@@ -81,8 +93,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+        // 거부해도 화면이 새로 만들어질 때마다 다시 묻지 않도록 처음 한 번만 요청
+        SharedPreferences ui = getPreferences(MODE_PRIVATE);
+        if (!ui.getBoolean("notification_asked", false)
+                && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
+            ui.edit().putBoolean("notification_asked", true).apply();
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
         }
     }
@@ -129,6 +145,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onResume();
         // 완충·시간 초과로 서비스가 자동 복구해도 버튼이 바로 바뀌도록 상태 변경을 감시
         ChargeLimiter.listen(this, stateListener);
+        getContentResolver().registerContentObserver(
+                Settings.Global.getUriFor(ChargeLimiter.KEY_MODE), false, settingsObserver);
+        getContentResolver().registerContentObserver(
+                Settings.Global.getUriFor(ChargeLimiter.KEY_THRESHOLD), false, settingsObserver);
         refresh();
     }
 
@@ -136,6 +156,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onPause() {
         commitHours();
         ChargeLimiter.unlisten(this, stateListener);
+        getContentResolver().unregisterContentObserver(settingsObserver);
         super.onPause();
     }
 
@@ -160,17 +181,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         int mode = ChargeLimiter.readMode(this);
         StringBuilder sb = new StringBuilder();
         sb.append("권한: ").append(perm ? "부여됨" : "없음 (아래 adb 명령 실행)").append('\n');
-        sb.append("현재 배터리 보호: ").append(ChargeLimiter.describeMode(this, mode))
-          .append("  [protect_battery=").append(mode)
-          .append(", threshold=").append(ChargeLimiter.readThreshold(this)).append("]\n");
+        sb.append("현재 배터리 보호: ").append(ChargeLimiter.describeMode(this, mode)).append('\n');
         boolean active = ChargeLimiter.isActive(this);
         toggle.setText(active ? "지금 제한 복구" : "이번만 완전 충전");
         if (active) {
             sb.append("상태: 100% 충전 허용 중, ")
               .append(DateFormat.getTimeInstance(DateFormat.SHORT)
                       .format(new Date(ChargeLimiter.endAt(this))))
-              .append("에 자동 복구 (복구 대상 값 ")
-              .append(ChargeLimiter.savedMode(this)).append(')');
+              .append("에 자동 복구");
         } else {
             sb.append("상태: 대기 (제한 적용 중)");
         }
