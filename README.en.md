@@ -186,7 +186,7 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 
 ## License and disclaimer
 
-Starting with v1.5.1, this project is distributed under the [CC BY-ND 4.0](LICENSE). You may copy and redistribute it unmodified, including for commercial purposes, as long as you give credit (the author NUNNOO58 and this repository). You may not distribute modified versions.
+Starting with v1.5.1, this project is distributed under [CC BY-ND 4.0](LICENSE). You may copy and redistribute it unmodified, including for commercial purposes, as long as you give credit (the author NUNNOO58 and this repository). You may not distribute modified versions.
 
 Versions 1.5 and earlier were released under the MIT License, and the MIT terms continue to apply to those versions.
 
