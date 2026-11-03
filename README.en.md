@@ -156,10 +156,7 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 - [x] Dark and light mode screens (main, About, Legal notices)
 - [x] An out-of-range duration such as 25 reverts to the saved value with a message, and starting a full charge right after typing it uses the saved value (v1.4.3, S26 and S23)
 - [x] On Galaxy S23 (One UI 9): removing the old app (1.1), installing v1.4.3, lifting and restoring, 100% detection, and the 15-second grace period
-
-### To do
-
-- [ ] The "!" widget indicator without the permission
+- [x] Without the permission, the widget shows "!" and "권한 필요" (Permission needed), and tapping it opens the app (S23)
 
 ## License and disclaimer
 
