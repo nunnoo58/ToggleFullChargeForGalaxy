@@ -75,7 +75,7 @@
     <!-- 만든 사람 페이지. %1$s = 버전명 -->
     <string name="about_text">Toggle Full Charge\nVersion %1$s
         \n\nMade by: NUNNOO58
-        \nGitHub: https://github.com/nunnoo58
+        \nGitHub: https://github.com/nunnoo58/ToggleFullChargeForGalaxy
         \n\nThis app was built with Claude, an AI assistant by Anthropic.
         Coding, building, and documentation were done together with Claude.</string>
 
