@@ -4,6 +4,10 @@
 
 각 버전의 APK는 [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases)에서 받을 수 있습니다.
 
+## v2.1 (2026-11-04)
+
+- 영어 위젯에서 권한이 없을 때 "NO / Permission"으로 표시 (기존 "Permission needed"가 1×1 위젯에서 잘리던 문제 수정)
+
 ## v2.0 (2026-11-04)
 
 - 영어·일본어 지원 추가. 메뉴(≡) → Languages...에서 한국어, English, 日本語 중 선택 (시스템 설정의 앱 언어에서도 선택 가능)

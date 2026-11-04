@@ -44,7 +44,9 @@
     <string name="mode_unknown">Unknown value (%1$d)</string>
 
     <!-- 위젯 -->
-    <string name="widget_need_perm">Permission needed</string>
+    <!-- 1×1 위젯 한 줄에 들어가도록 짧게 ("Permission needed"는 잘림) -->
+    <string name="widget_need_perm_big">NO</string>
+    <string name="widget_need_perm">Permission</string>
     <string name="widget_tap">Tap to fill</string>
     <string name="widget_protect">Protected</string>
 

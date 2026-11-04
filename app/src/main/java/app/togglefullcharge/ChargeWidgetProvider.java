@@ -34,7 +34,7 @@ public class ChargeWidgetProvider extends AppWidgetProvider {
         boolean ok = ChargeLimiter.hasPermission(ctx);
 
         if (!ok) {
-            v.setTextViewText(R.id.big, "!");
+            v.setTextViewText(R.id.big, ctx.getString(R.string.widget_need_perm_big));
             v.setTextViewText(R.id.small, ctx.getString(R.string.widget_need_perm));
             v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
         } else if (active) {

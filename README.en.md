@@ -10,13 +10,9 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app is available in Korean, English, and Japanese. Choose the language from the menu (≡) → Languages... By default it follows the phone's language, and it uses English for other languages.
 
-## Latest version: v2.0 (2026-11-04)
+## Latest version: v2.1 (2026-11-04)
 
-- Added English and Japanese. Choose 한국어, English, or 日本語 from the menu (≡) → Languages... (also available in the system's app language settings)
-- Follows the phone's language by default, and uses English for languages other than Korean, English, and Japanese
-- The app name is "이번만 완전 충전" in Korean and "Toggle Full Charge" in other languages
-- Battery Protection mode names now match the official One UI names ("Sleep time protection")
-- The license name on the Legal notices page is now written simply as "CC BY-ND 4.0"
+- The English widget now shows "NO / Permission" when the permission is missing (fixes "Permission needed" being cut off in the 1×1 widget)
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
@@ -104,7 +100,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 4. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v2.0.apk
+adb install -r ToggleFullChargeForGalaxy-v2.1.apk
 Performing Streamed Install
 Success
 
@@ -118,7 +114,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change while connected over Wi-Fi**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from the connect step in 2-2 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.0.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.1.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -155,7 +151,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.0), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–04. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–04. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -181,12 +177,14 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.0), a Galaxy S23 (One UI 9
 - [x] Dark and light mode screens (main, About, Legal notices)
 - [x] An out-of-range duration such as 25 reverts to the saved value with a message, and starting a full charge right after typing it uses the saved value (v1.4.3, S26 and S23)
 - [x] On Galaxy S23 (One UI 9): removing the old app (1.1), installing v1.4.3, lifting and restoring, 100% detection, and the 15-second grace period
-- [x] Without the permission, the widget shows "!" and "Permission needed", and tapping it opens the app (S23)
+- [x] Without the permission, the widget shows a warning, and tapping it opens the app (S23)
 - [x] Updating (1.4.3 → 1.5) keeps the duration, the unplug option, and an ongoing full charge (S23)
 - [x] The notification permission is requested only once and not asked again after denial, relaunch, or a theme change (v1.5, S23)
 - [x] The screen updates immediately right after starting a full charge and when Battery Protection is changed in Settings (v1.5, S23)
 - [x] Switching between 한국어, English, and 日本語 from Languages... in the menu, and English is shown when the phone's language is French or Spanish (v2.0, S26)
 - [x] Battery Protection mode names match the official One UI 9 names in Korean, English, and Japanese (v2.0, S26)
+- [x] In English and Japanese, notifications (title, text, button, stalled-charging hint), toasts, the widget, Legal notices, and the no-permission screen are shown without being cut off (v2.0–2.1, S26)
+- [x] Without the permission, the widget shows "NO / Permission" in English, "! / 권한 필요" in Korean, and "! / 権限が必要" in Japanese (v2.1, S26)
 - [x] The app name is shown once, and status bar icons are dark in light mode (v1.5, S23)
 
 ## License and disclaimer

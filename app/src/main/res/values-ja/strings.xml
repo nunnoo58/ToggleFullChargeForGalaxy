@@ -35,6 +35,7 @@
     <string name="mode_unknown">不明な値（%1$d）</string>
 
     <!-- 위젯 -->
+    <string name="widget_need_perm_big">!</string>
     <string name="widget_need_perm">権限が必要</string>
     <string name="widget_tap">タップで満充電</string>
     <string name="widget_protect">保護</string>

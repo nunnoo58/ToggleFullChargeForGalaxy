@@ -4,6 +4,10 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v2.1 (2026-11-04)
+
+- The English widget now shows "NO / Permission" when the permission is missing (fixes "Permission needed" being cut off in the 1×1 widget)
+
 ## v2.0 (2026-11-04)
 
 - Added English and Japanese. Choose 한국어, English, or 日本語 from the menu (≡) → Languages... (also available in the system's app language settings)

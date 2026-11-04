@@ -10,13 +10,9 @@ Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입�
 - 테스트 완료: 갤럭시 S23, S26 (One UI 9), 갤럭시 Tab S8+ (One UI 8)
 - 앱은 한국어, 영어, 일본어를 지원합니다. 메뉴(≡) → Languages...에서 고를 수 있으며, 처음에는 휴대폰 언어를 따르고 세 언어 외에는 영어로 표시됩니다.
 
-## 최신 버전: v2.0 (2026-11-04)
+## 최신 버전: v2.1 (2026-11-04)
 
-- 영어·일본어 지원 추가. 메뉴(≡) → Languages...에서 한국어, English, 日本語 중 선택 (시스템 설정의 앱 언어에서도 선택 가능)
-- 처음에는 휴대폰 언어를 따르고, 한국어·영어·일본어 외의 언어에서는 영어로 표시
-- 앱 이름은 한국어에서 "이번만 완전 충전", 그 외 언어에서 "Toggle Full Charge"
-- 배터리 보호 모드 이름을 One UI 공식 명칭에 맞춤 ("수면 시간 보호" → "수면 중 배터리 보호")
-- 법적 고지의 라이선스 이름을 "CC BY-ND 4.0"으로 간단히 표기
+- 영어 위젯에서 권한이 없을 때 "NO / Permission"으로 표시 (기존 "Permission needed"가 1×1 위젯에서 잘리던 문제 수정)
 
 이전 버전의 변경 내역은 [CHANGELOG.md](CHANGELOG.md), APK는 [최신 릴리스](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest)에서 볼 수 있습니다.
 
@@ -104,7 +100,7 @@ adb shell settings get global protect_battery
 ### 4. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v2.0.apk
+adb install -r ToggleFullChargeForGalaxy-v2.1.apk
 Performing Streamed Install
 Success
 
@@ -118,7 +114,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **무선 연결 중 재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 2-2의 연결 단계부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.0.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.1.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
@@ -155,7 +151,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 ## 테스트
 
-갤럭시 S26(One UI 9, v1.4.1\~2.0), 갤럭시 S23(One UI 9, v1.4.3\~1.5), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02\~04에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
+갤럭시 S26(One UI 9, v1.4.1\~2.1), 갤럭시 S23(One UI 9, v1.4.3\~1.5), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02\~04에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
 
 ### 완료
 
@@ -187,6 +183,8 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - [x] 완충 시작 직후와 설정 앱에서 배터리 보호를 바꿨을 때 화면에 바로 반영 (v1.5, S23)
 - [x] 메뉴의 Languages...에서 한국어, English, 日本語로 전환하고, 휴대폰 언어가 프랑스어·스페인어일 때는 영어로 표시 (v2.0, S26)
 - [x] 배터리 보호 모드 이름이 One UI 9의 한국어·영어·일본어 공식 명칭과 일치 (v2.0, S26)
+- [x] 영어·일본어에서 알림(제목, 본문, 버튼, 충전 정체 안내), 토스트, 위젯, 법적 고지, 권한 없음 화면이 잘리지 않고 표시 (v2.0\~2.1, S26)
+- [x] 권한이 없을 때 위젯이 영어 "NO / Permission", 한국어 "! / 권한 필요", 일본어 "! / 権限が必要"로 표시 (v2.1, S26)
 - [x] 앱 이름이 한 번만 표시되고, 라이트 모드에서 상태 표시줄 아이콘이 어둡게 보임 (v1.5, S23)
 
 ## 라이선스 및 면책
