@@ -136,12 +136,6 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
   - 알림의 "지금 제한 복구" 버튼, 위젯이나 앱 버튼을 다시 누름
   - 재부팅
 
-## 빌드
-
-- Android Studio에서 이 폴더를 열고 Run ▶을 누르면 됩니다. APK 이름은 `ToggleFullChargeForGalaxy-v<버전>-debug.apk`로 생성됩니다.
-- 버전은 `app/build.gradle.kts`의 `appVersionName`, `appVersionCode` 두 값만 바꾸면 됩니다.
-- `build_apk_nogradle.sh`는 Gradle 없이 aapt2, javac, dx, uber-apk-signer로 빌드하는 스크립트입니다. `TOOLS` 환경변수에 도구가 있는 폴더를 지정해야 합니다.
-
 ## 알려진 한계
 
 - "충전기를 15초 이상 분리하면 복구" 옵션은 분리 후 15초를 기다렸다가 복구합니다. 무선 충전 패드에서 잠깐 어긋났다가 15초 안에 다시 충전되면 복구하지 않지만, 15초보다 오래 어긋나 있으면 복구됩니다.

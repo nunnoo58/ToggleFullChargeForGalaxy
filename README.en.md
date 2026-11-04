@@ -136,12 +136,6 @@ The permission command prints nothing when it succeeds. Open the app, check that
   - The "Restore limit now" button in the notification is tapped, or the widget or app button is tapped again
   - The device reboots
 
-## Building
-
-- Open this folder in Android Studio and press Run ▶. The APK is named `ToggleFullChargeForGalaxy-v<version>-debug.apk`.
-- To change the version, edit only `appVersionName` and `appVersionCode` in `app/build.gradle.kts`.
-- `build_apk_nogradle.sh` builds the app without Gradle, using aapt2, javac, dx, and uber-apk-signer. Set the `TOOLS` environment variable to the folder containing these tools.
-
 ## Known limitations
 
 - The "Restore if the charger is disconnected for 15 seconds or more" option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
