@@ -4,6 +4,14 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v2.0 (2026-11-04)
+
+- Added English and Japanese. Choose 한국어, English, or 日本語 from the menu (≡) → Languages... (also available in the system's app language settings)
+- Follows the phone's language by default, and uses English for languages other than Korean, English, and Japanese
+- The app name is "이번만 완전 충전" in Korean and "Toggle Full Charge" in other languages
+- Battery Protection mode names now match the official One UI names ("Sleep time protection")
+- The license name on the Legal notices page is now written simply as "CC BY-ND 4.0"
+
 ## v1.5.1 (2026-11-04)
 
 - Changed the license from MIT to CC BY-ND 4.0 (unmodified copies may be redistributed with credit; modified versions may not be distributed; versions 1.5 and earlier stay under MIT)

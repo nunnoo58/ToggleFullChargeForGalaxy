@@ -8,11 +8,15 @@ Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입�
 
 - 루트 권한은 필요하지 않습니다. 대신 `WRITE_SECURE_SETTINGS` 권한을 adb로 한 번 부여해야 합니다.
 - 테스트 완료: 갤럭시 S23, S26 (One UI 9), 갤럭시 Tab S8+ (One UI 8)
+- 앱은 한국어, 영어, 일본어를 지원합니다. 메뉴(≡) → Languages...에서 고를 수 있으며, 처음에는 휴대폰 언어를 따르고 세 언어 외에는 영어로 표시됩니다.
 
-## 최신 버전: v1.5.1 (2026-11-04)
+## 최신 버전: v2.0 (2026-11-04)
 
-- 라이선스를 MIT에서 CC BY-ND 4.0으로 변경 (출처를 밝히면 원본 그대로 재배포 가능, 수정본 배포는 금지. v1.5 이하는 MIT 유지)
-- 앱의 법적 고지 페이지에 새 라이선스 반영
+- 영어·일본어 지원 추가. 메뉴(≡) → Languages...에서 한국어, English, 日本語 중 선택 (시스템 설정의 앱 언어에서도 선택 가능)
+- 처음에는 휴대폰 언어를 따르고, 한국어·영어·일본어 외의 언어에서는 영어로 표시
+- 앱 이름은 한국어에서 "이번만 완전 충전", 그 외 언어에서 "Toggle Full Charge"
+- 배터리 보호 모드 이름을 One UI 공식 명칭에 맞춤 ("수면 시간 보호" → "수면 중 배터리 보호")
+- 법적 고지의 라이선스 이름을 "CC BY-ND 4.0"으로 간단히 표기
 
 이전 버전의 변경 내역은 [CHANGELOG.md](CHANGELOG.md), APK는 [최신 릴리스](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest)에서 볼 수 있습니다.
 
@@ -100,7 +104,7 @@ adb shell settings get global protect_battery
 ### 4. 설치와 권한 부여
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.5.1.apk
+adb install -r ToggleFullChargeForGalaxy-v2.0.apk
 Performing Streamed Install
 Success
 
@@ -114,7 +118,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - **무선 연결 중 재부팅하거나 Wi-Fi가 바뀐 경우**: 무선 디버깅이 꺼집니다. 다시 켜면 연결 포트가 바뀌므로 화면에 새로 표시된 주소로 2-2의 연결 단계부터 다시 하면 됩니다. 페어링은 다시 하지 않아도 됩니다.
 - **기기를 여러 대 연결한 경우**: `error: more than one device/emulator`가 나오면 모든 명령에 `-s`로 대상을 지정합니다.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.1.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.0.apk
   ```
   또는 `adb disconnect`로 기존 연결을 모두 끊은 뒤 한 대만 연결합니다.
 - **1.2 이하에서 업데이트하는 경우**: 1.3부터 패키지 이름이 `app.togglefullcharge`로 바뀌어 기존 앱 위에 덮어 설치되지 않습니다. 기존 앱에서 제한을 복구한 상태(위젯이 80%로 표시)인지 확인한 뒤 기존 앱을 삭제하고, 새 버전을 설치해 권한을 다시 부여해 주세요. 위젯도 다시 추가해야 합니다.
@@ -127,7 +131,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 ## 동작 원리
 
 - One UI 배터리 보호 설정은 `Settings.Global`의 `protect_battery` 값으로 저장됩니다.
-  - 0 꺼짐 / 1 최대(`battery_protection_threshold`%) / 3 기본 / 4 수면 시간 보호(One UI 9)
+  - 0 꺼짐 / 1 최대(`battery_protection_threshold`%) / 3 기본 / 4 수면 중 배터리 보호(One UI 9)
 - 위젯을 누르면 현재 값을 저장하고 `protect_battery`를 0으로 바꾼 뒤, 포그라운드 서비스가 배터리 상태를 감시합니다.
 - 다음 중 하나가 되면 저장해 둔 값으로 되돌립니다.
   - 잔량 100% 또는 완충 상태 감지
@@ -151,7 +155,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 ## 테스트
 
-갤럭시 S26(One UI 9, v1.4.1\~1.4.3), 갤럭시 S23(One UI 9, v1.4.3\~1.5), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02\~03에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
+갤럭시 S26(One UI 9, v1.4.1\~2.0), 갤럭시 S23(One UI 9, v1.4.3\~1.5), 갤럭시 Tab S8+(One UI 8, v1.4.2)에서 2026-11-02\~04에 확인한 결과입니다. 충전기 분리, 잔량 100%, 충전 정체는 `adb shell dumpsys battery`로 배터리 상태를 흉내 내어 확인했습니다.
 
 ### 완료
 
@@ -172,7 +176,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - [x] 권한이 없을 때 앱의 안내 (상태 표시, adb 명령 상자, "권한 없음" 토스트)
 - [x] 알림 권한을 거부해도 동작
 - [x] 유지 시간에 0이나 빈칸을 넣으면 무시하고 이전 값 유지
-- [x] 배터리 보호 "기본", "수면 시간 보호" 모드에서 해제 후 원래 모드로 복구
+- [x] 배터리 보호 "기본", "수면 중 배터리 보호" 모드에서 해제 후 원래 모드로 복구
 - [x] 배터리 보호가 꺼진 상태에서 누르면 "배터리 보호가 이미 꺼져 있음" 안내
 - [x] 다크 모드와 라이트 모드 화면 (메인, 만든 사람, 법적 고지)
 - [x] 유지 시간에 25처럼 범위 밖 값을 넣으면 저장된 값으로 되돌리고 안내, 입력한 채 바로 완충해도 저장된 값 적용 (v1.4.3, S26·S23)
@@ -181,6 +185,8 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 - [x] 업데이트(1.4.3 → 1.5)해도 유지 시간, 분리 옵션, 완충 중 상태 유지 (S23)
 - [x] 알림 권한은 처음 한 번만 요청하고, 거부한 뒤 다시 실행하거나 테마를 바꿔도 다시 묻지 않음 (v1.5, S23)
 - [x] 완충 시작 직후와 설정 앱에서 배터리 보호를 바꿨을 때 화면에 바로 반영 (v1.5, S23)
+- [x] 메뉴의 Languages...에서 한국어, English, 日本語로 전환하고, 휴대폰 언어가 프랑스어·스페인어일 때는 영어로 표시 (v2.0, S26)
+- [x] 배터리 보호 모드 이름이 One UI 9의 한국어·영어·일본어 공식 명칭과 일치 (v2.0, S26)
 - [x] 앱 이름이 한 번만 표시되고, 라이트 모드에서 상태 표시줄 아이콘이 어둡게 보임 (v1.5, S23)
 
 ## 라이선스 및 면책

@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:text="눌러서 완충"
+            android:text="@string/widget_tap"
             android:textColor="#DDFFFFFF"
             android:textSize="11sp" />
     </LinearLayout>

@@ -26,10 +26,10 @@ public class InfoActivity extends Activity {
         TextView title = findViewById(R.id.title);
         TextView body = findViewById(R.id.body);
         if (getIntent().getIntExtra(EXTRA_PAGE, PAGE_ABOUT) == PAGE_LEGAL) {
-            title.setText("법적 고지");
+            title.setText(R.string.menu_legal);
             body.setText(R.string.legal_text);
         } else {
-            title.setText("만든 사람");
+            title.setText(R.string.menu_about);
             body.setText(getString(R.string.about_text, versionName()));
         }
     }

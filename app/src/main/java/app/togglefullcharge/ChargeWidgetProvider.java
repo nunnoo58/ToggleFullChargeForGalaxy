@@ -35,7 +35,7 @@ public class ChargeWidgetProvider extends AppWidgetProvider {
 
         if (!ok) {
             v.setTextViewText(R.id.big, "!");
-            v.setTextViewText(R.id.small, "권한 필요");
+            v.setTextViewText(R.id.small, ctx.getString(R.string.widget_need_perm));
             v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
         } else if (active) {
             String until = DateFormat.getTimeInstance(DateFormat.SHORT)
@@ -46,8 +46,9 @@ public class ChargeWidgetProvider extends AppWidgetProvider {
         } else {
             int mode = ChargeLimiter.readMode(ctx);
             int limit = ChargeLimiter.limitPercent(ctx, mode);
-            v.setTextViewText(R.id.big, limit > 0 ? limit + "%" : (mode == 0 ? "OFF" : "보호"));
-            v.setTextViewText(R.id.small, "눌러서 완충");
+            v.setTextViewText(R.id.big, limit > 0 ? limit + "%"
+                    : ctx.getString(mode == 0 ? R.string.widget_off : R.string.widget_protect));
+            v.setTextViewText(R.id.small, ctx.getString(R.string.widget_tap));
             v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
         }
 

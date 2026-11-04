@@ -8,12 +8,15 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 
 - No root required. Instead, the `WRITE_SECURE_SETTINGS` permission must be granted once via adb.
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
-- The app's interface is in Korean. The on-screen labels referred to below are given as "Korean (English meaning)".
+- The app is available in Korean, English, and Japanese. Choose the language from the menu (≡) → Languages... By default it follows the phone's language, and it uses English for other languages.
 
-## Latest version: v1.5.1 (2026-11-04)
+## Latest version: v2.0 (2026-11-04)
 
-- Changed the license from MIT to CC BY-ND 4.0 (unmodified copies may be redistributed with credit; modified versions may not be distributed; versions 1.5 and earlier stay under MIT)
-- Updated the Legal notices page in the app with the new license
+- Added English and Japanese. Choose 한국어, English, or 日本語 from the menu (≡) → Languages... (also available in the system's app language settings)
+- Follows the phone's language by default, and uses English for languages other than Korean, English, and Japanese
+- The app name is "이번만 완전 충전" in Korean and "Toggle Full Charge" in other languages
+- Battery Protection mode names now match the official One UI names ("Sleep time protection")
+- The license name on the Legal notices page is now written simply as "CC BY-ND 4.0"
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
@@ -101,21 +104,21 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 4. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v1.5.1.apk
+adb install -r ToggleFullChargeForGalaxy-v2.0.apk
 Performing Streamed Install
 Success
 
 adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 ```
 
-The permission command prints nothing when it succeeds. Open the app, check that it shows "권한: 부여됨" (Permission: granted), and then add the widget to your home screen.
+The permission command prints nothing when it succeeds. Open the app, check that it shows "Permission: granted", and then add the widget to your home screen.
 
 ### Notes
 
 - **After a reboot or a Wi-Fi change while connected over Wi-Fi**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from the connect step in 2-2 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v1.5.1.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.0.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -134,7 +137,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
   - Battery reaches 100% or the full-charge state is detected
   - The set time runs out (3 hours by default)
   - The charger stays disconnected for 15 seconds or more (optional)
-  - The "지금 제한 복구" (Restore limit now) button in the notification is tapped, or the widget or app button is tapped again
+  - The "Restore limit now" button in the notification is tapped, or the widget or app button is tapped again
   - The device reboots
 
 ## Building
@@ -145,14 +148,14 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Known limitations
 
-- The "충전기를 15초 이상 분리하면 복구" (Restore when the charger is disconnected for 15 seconds or more) option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
+- The "Restore if the charger is disconnected for 15 seconds or more" option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
 - The timeout alarm runs without the exact alarm permission, so it may be a few minutes late. While charging, the app also checks on every battery status change.
 - If you change Battery Protection directly in Settings while the limit is lifted, the value from just before lifting is written back when restoring.
 - In v1.4.2 and earlier, entering an out-of-range maximum duration whose first digit is valid, such as 25, saves only the first digit (2). The screen shows 25 but 2 hours is applied, so enter a value from 1 to 24 only.
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–03. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.0), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–04. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -168,20 +171,22 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–1.4.3), a Galaxy S23 (One UI
 - [x] Force-stopping the app while lifted: restores when the app is opened again (stays lifted until then)
 - [x] Stays lifted when the phone briefly shifts on a wireless charging pad
 - [x] Restores when the set time runs out
-- [x] Restores with the "지금 제한 복구" (Restore limit now) button in the notification
+- [x] Restores with the "Restore limit now" button in the notification
 - [x] Compatibility check, installation, and permission grant on Galaxy Tab S8+ (One UI 8)
-- [x] App messages without the permission (status line, adb command box, "권한 없음" (No permission) toast)
+- [x] App messages without the permission (status line, adb command box, "No permission" toast)
 - [x] Works with the notification permission denied
 - [x] Entering 0 or an empty duration is ignored and the previous value is kept
 - [x] Restores the original mode after lifting in the "Basic" and "Sleep time protection" modes
-- [x] Tapping while Battery Protection is off shows "배터리 보호가 이미 꺼져 있음" (Battery Protection is already off)
+- [x] Tapping while Battery Protection is off shows "Battery Protection is already off"
 - [x] Dark and light mode screens (main, About, Legal notices)
 - [x] An out-of-range duration such as 25 reverts to the saved value with a message, and starting a full charge right after typing it uses the saved value (v1.4.3, S26 and S23)
 - [x] On Galaxy S23 (One UI 9): removing the old app (1.1), installing v1.4.3, lifting and restoring, 100% detection, and the 15-second grace period
-- [x] Without the permission, the widget shows "!" and "권한 필요" (Permission needed), and tapping it opens the app (S23)
+- [x] Without the permission, the widget shows "!" and "Permission needed", and tapping it opens the app (S23)
 - [x] Updating (1.4.3 → 1.5) keeps the duration, the unplug option, and an ongoing full charge (S23)
 - [x] The notification permission is requested only once and not asked again after denial, relaunch, or a theme change (v1.5, S23)
 - [x] The screen updates immediately right after starting a full charge and when Battery Protection is changed in Settings (v1.5, S23)
+- [x] Switching between 한국어, English, and 日本語 from Languages... in the menu, and English is shown when the phone's language is French or Spanish (v2.0, S26)
+- [x] Battery Protection mode names match the official One UI 9 names in Korean, English, and Japanese (v2.0, S26)
 - [x] The app name is shown once, and status bar icons are dark in light mode (v1.5, S23)
 
 ## License and disclaimer

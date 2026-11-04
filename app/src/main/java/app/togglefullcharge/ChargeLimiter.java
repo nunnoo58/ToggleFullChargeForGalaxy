@@ -15,7 +15,7 @@ import android.provider.Settings;
  * 삼성 One UI '배터리 보호' 설정(Settings.Global)을 읽고 쓰는 핵심 로직.
  *
  * protect_battery 값 (One UI 6.1 ~ 9 기준)
- *   0 = 꺼짐, 1 = 최대(battery_protection_threshold %에서 정지), 3 = 기본, 4 = 수면 시간 보호
+ *   0 = 꺼짐, 1 = 최대(battery_protection_threshold %에서 정지), 3 = 기본, 4 = 수면 중 배터리 보호
  */
 public final class ChargeLimiter {
 
@@ -52,14 +52,14 @@ public final class ChargeLimiter {
 
     public static String describeMode(Context ctx, int mode) {
         switch (mode) {
-            case MODE_UNSUPPORTED: return "지원 안 됨(설정 키 없음)";
-            case 0: return "꺼짐";
+            case MODE_UNSUPPORTED: return ctx.getString(R.string.mode_unsupported);
+            case 0: return ctx.getString(R.string.mode_off);
             case 1:
                 int t = readThreshold(ctx);
-                return "최대 (" + (t > 0 ? t : 80) + "%에서 정지)";
-            case 3: return "기본";
-            case 4: return "수면 시간 보호";
-            default: return "알 수 없는 값(" + mode + ")";
+                return ctx.getString(R.string.mode_max, t > 0 ? t : 80);
+            case 3: return ctx.getString(R.string.mode_basic);
+            case 4: return ctx.getString(R.string.mode_sleep);
+            default: return ctx.getString(R.string.mode_unknown, mode);
         }
     }
 

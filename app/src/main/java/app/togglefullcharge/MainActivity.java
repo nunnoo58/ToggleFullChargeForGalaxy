@@ -2,13 +2,17 @@ package app.togglefullcharge;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.LocaleManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.os.Bundle;
+import android.os.LocaleList;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -28,6 +32,9 @@ import java.util.Date;
 
 /** 상태 확인, 권한 안내, 설정(시간·분리 시 복구), 수동 실행 */
 public class MainActivity extends Activity implements View.OnClickListener {
+
+    // 메뉴 항목 id (InfoActivity.PAGE_* 와 겹치지 않게)
+    private static final int MENU_LANGUAGES = 100;
 
     private TextView status;
     private TextView adbCmd;
@@ -108,13 +115,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         int id = v.getId();
         if (id == R.id.menu) {
             PopupMenu menu = new PopupMenu(this, v);
-            menu.getMenu().add(0, InfoActivity.PAGE_ABOUT, 0, "만든 사람");
-            menu.getMenu().add(0, InfoActivity.PAGE_LEGAL, 1, "법적 고지");
+            menu.getMenu().add(0, MENU_LANGUAGES, 0, R.string.menu_languages);
+            menu.getMenu().add(0, InfoActivity.PAGE_ABOUT, 1, R.string.menu_about);
+            menu.getMenu().add(0, InfoActivity.PAGE_LEGAL, 2, R.string.menu_legal);
             menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    startActivity(new Intent(MainActivity.this, InfoActivity.class)
-                            .putExtra(InfoActivity.EXTRA_PAGE, item.getItemId()));
+                    if (item.getItemId() == MENU_LANGUAGES) {
+                        showLanguages();
+                    } else {
+                        startActivity(new Intent(MainActivity.this, InfoActivity.class)
+                                .putExtra(InfoActivity.EXTRA_PAGE, item.getItemId()));
+                    }
                     return true;
                 }
             });
@@ -122,7 +134,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         } else if (id == R.id.copy) {
             getSystemService(ClipboardManager.class)
                     .setPrimaryClip(ClipData.newPlainText("adb", adbCmd.getText()));
-            Toast.makeText(this, "복사됨", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.copied, Toast.LENGTH_SHORT).show();
         } else if (id == R.id.toggle) {
             // 입력란에 포커스가 남은 채 누르면 포커스 이동이 없으므로 여기서 반영
             commitHours();
@@ -160,6 +172,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onPause();
     }
 
+    /** 앱 언어 선택. Android 13+의 앱별 언어를 쓰므로 고른 언어는 시스템이 저장하고 화면을 다시 만듦 */
+    private void showLanguages() {
+        final String[] tags = {"ko", "en", "ja"};
+        String[] names = {getString(R.string.lang_ko), getString(R.string.lang_en), getString(R.string.lang_ja)};
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.languages_title)
+                .setItems(names, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface d, int which) {
+                        getSystemService(LocaleManager.class)
+                                .setApplicationLocales(LocaleList.forLanguageTags(tags[which]));
+                    }
+                })
+                .show();
+    }
+
     /** 입력값이 1~24면 저장, 아니면 저장된 값으로 되돌림 (화면 값과 실제 값을 항상 일치시킴) */
     private void commitHours() {
         try {
@@ -172,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String saved = String.valueOf(ChargeLimiter.hours(this));
         if (!saved.contentEquals(hours.getText())) {
             hours.setText(saved);
-            Toast.makeText(this, "유지 시간은 1~24시간만 가능", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.hours_invalid, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -180,17 +208,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
         boolean perm = ChargeLimiter.hasPermission(this);
         int mode = ChargeLimiter.readMode(this);
         StringBuilder sb = new StringBuilder();
-        sb.append("권한: ").append(perm ? "부여됨" : "없음 (아래 adb 명령 실행)").append('\n');
-        sb.append("현재 배터리 보호: ").append(ChargeLimiter.describeMode(this, mode)).append('\n');
+        sb.append(getString(R.string.status_perm,
+                getString(perm ? R.string.perm_granted : R.string.perm_missing))).append('\n');
+        sb.append(getString(R.string.status_mode, ChargeLimiter.describeMode(this, mode))).append('\n');
         boolean active = ChargeLimiter.isActive(this);
-        toggle.setText(active ? "지금 제한 복구" : "이번만 완전 충전");
+        toggle.setText(active ? R.string.btn_restore : R.string.btn_boost);
         if (active) {
-            sb.append("상태: 100% 충전 허용 중, ")
-              .append(DateFormat.getTimeInstance(DateFormat.SHORT)
-                      .format(new Date(ChargeLimiter.endAt(this))))
-              .append("에 자동 복구");
+            sb.append(getString(R.string.status_active, DateFormat.getTimeInstance(DateFormat.SHORT)
+                    .format(new Date(ChargeLimiter.endAt(this)))));
         } else {
-            sb.append("상태: 대기 (제한 적용 중)");
+            sb.append(getString(R.string.status_idle));
         }
         status.setText(sb);
         findViewById(R.id.perm_box).setVisibility(perm ? View.GONE : View.VISIBLE);

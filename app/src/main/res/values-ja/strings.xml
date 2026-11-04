@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- app_name은 넣지 않음: 한국어 외에는 영어 이름(values)으로 고정 -->
+    <string name="widget_desc">タップすると充電制限をしばらく解除し、満充電または時間切れで元に戻します</string>
+
+    <!-- 메뉴 -->
+    <string name="menu_about">作成者</string>
+    <string name="menu_legal">法的通知</string>
+    <string name="cd_menu">メニュー</string>
+    <string name="cd_back">戻る</string>
+
+    <!-- 메인 화면 -->
+    <string name="perm_hint">PCからUSBデバッグで接続して1回実行（再インストールまで有効）</string>
+    <string name="copy_command">コマンドをコピー</string>
+    <string name="copied">コピーしました</string>
+    <string name="hours_label">最大維持時間（1〜24時間）</string>
+    <string name="hours_invalid">維持時間は1〜24時間で指定してください</string>
+    <string name="unplug_option">充電器を15秒以上外したら制限を戻す</string>
+    <string name="btn_boost">今回だけフル充電</string>
+    <string name="btn_restore">今すぐ制限を戻す</string>
+    <string name="btn_refresh">更新</string>
+    <string name="status_perm">権限: %1$s</string>
+    <string name="perm_granted">付与済み</string>
+    <string name="perm_missing">なし（下のadbコマンドを実行）</string>
+    <string name="status_mode">現在の[バッテリーを保護]: %1$s</string>
+    <string name="status_active">状態: 100%%までの充電を許可中、%1$sに自動で戻す</string>
+    <string name="status_idle">状態: 待機中（制限を適用中）</string>
+
+    <!-- 배터리 보호 모드 -->
+    <string name="mode_unsupported">非対応（設定キーなし）</string>
+    <string name="mode_off">OFF</string>
+    <string name="mode_max">最大（%1$d%%で停止）</string>
+    <string name="mode_basic">標準</string>
+    <string name="mode_sleep">睡眠時間の保護</string>
+    <string name="mode_unknown">不明な値（%1$d）</string>
+
+    <!-- 위젯 -->
+    <string name="widget_need_perm">権限が必要</string>
+    <string name="widget_tap">タップで満充電</string>
+    <string name="widget_protect">保護</string>
+
+    <!-- 알림·토스트 -->
+    <string name="toast_restored">充電制限を戻しました</string>
+    <string name="toast_boost">今回だけ100%まで充電します</string>
+    <string name="restore_unplug">充電器が外れました → 制限を戻しました</string>
+    <string name="restore_full">満充電を検出 → 制限を戻しました</string>
+    <string name="restore_timeout">時間切れ → 制限を戻しました</string>
+    <string name="hint_replug">充電が再開しない場合は、ケーブルを抜いて挿し直してください</string>
+    <string name="noti_checking">確認中…</string>
+    <string name="noti_channel">フル充電の進行状況</string>
+    <string name="noti_title">今回だけ100%まで充電中</string>
+    <string name="noti_text">満充電または%1$sに自動で戻します</string>
+    <string name="err_no_permission">権限がありません: アプリを開いてadbで権限を付与してください</string>
+    <string name="err_unsupported">この端末には[バッテリーを保護]の設定キーがありません</string>
+    <string name="err_already_off">[バッテリーを保護]はすでにOFFです</string>
+    <string name="err_already_active">すでにフル充電中です</string>
+    <string name="err_failed">設定の変更に失敗しました</string>
+
+    <!-- 만든 사람 페이지. %1$s = 버전명 -->
+    <string name="about_text">Toggle Full Charge\nバージョン %1$s
+        \n\n作成者: NUNNOO58
+        \n\nこのアプリは、AnthropicのAIアシスタントClaudeを使って作りました。
+        コードの作成、ビルド、ドキュメント作成をClaudeと一緒に行いました。</string>
+
+    <!-- 법적 고지 페이지 -->
+    <string name="legal_text">このアプリは、Samsung ElectronicsおよびAppleとは関係のない非公式の個人プロジェクトです。
+        Samsung、Galaxy、One UIはSamsung Electronicsの商標であり、Macは、米国およびその他の国で登録されたApple Inc.の商標です。
+        これらは対応端末と機能を説明する目的でのみ使用しています。
+        \n\nこのソフトウェアは「現状のまま」提供され、いかなる保証もありません。
+        このアプリの使用によって生じたバッテリー寿命の低下や端末の不具合など、あらゆる問題について作成者は責任を負いません。
+        ご自身の判断でご利用ください。
+        \n\nライセンス
+        \n\nCopyright (c) 2026 NUNNOO58
+        \n\nこのアプリとソースコードは、v1.5.1からCC BY-ND 4.0で配布しています。
+        クレジットを表示すれば、商用目的を含めて改変せずに複製・再配布できますが、改変したものは配布できません。
+        v1.5以前はMITライセンスで配布しました。
+        \n\nCC BY-ND 4.0の全文:
+        \nhttps://creativecommons.org/licenses/by-nd/4.0/legalcode
+        \n\n法的効力はライセンスの英語原文を基準とします。</string>
+</resources>

@@ -30,7 +30,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:contentDescription="메뉴"
+                android:contentDescription="@string/cd_menu"
                 android:src="@drawable/ic_menu" />
         </LinearLayout>
 
@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PC에서 USB 디버깅 연결 후 1회 실행 (재설치 전까지 유지)" />
+                android:text="@string/perm_hint" />
 
             <TextView
                 android:id="@+id/adb_cmd"
@@ -68,7 +68,7 @@
                 android:id="@+id/copy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="명령 복사" />
+                android:text="@string/copy_command" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="최대 유지 시간(1~24)" />
+                android:text="@string/hours_label" />
 
             <EditText
                 android:id="@+id/hours"
@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="충전기를 15초 이상 분리하면 복구" />
+            android:text="@string/unplug_option" />
 
         <!-- 상태에 따라 "이번만 완전 충전" ↔ "지금 제한 복구"로 바뀌는 토글 버튼 -->
         <Button
@@ -107,13 +107,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="이번만 완전 충전" />
+            android:text="@string/btn_boost" />
 
         <Button
             android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="새로고침" />
+            android:text="@string/btn_refresh" />
     </LinearLayout>
 </ScrollView>

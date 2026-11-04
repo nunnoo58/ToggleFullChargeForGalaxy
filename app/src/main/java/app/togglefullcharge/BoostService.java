@@ -44,18 +44,18 @@ public class BoostService extends Service {
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable unplugRestore = new Runnable() {
         @Override
-        public void run() { finishWith("충전기 분리 → 충전 제한 복구"); }
+        public void run() { finishWith(getString(R.string.restore_unplug)); }
     };
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // getForegroundService로 시작되면 5초 안에 startForeground를 반드시 호출해야 함
-        goForeground("확인 중…");
+        goForeground(getString(R.string.noti_checking));
 
         String action = intent != null ? intent.getAction() : null;
         if (ACTION_TOGGLE.equals(action) && ChargeLimiter.isActive(this)) {
             ChargeLimiter.restore(this);
-            toast("충전 제한 복구");
+            toast(getString(R.string.toast_restored));
             stopSelfNow();
             return START_NOT_STICKY;
         }
@@ -72,7 +72,7 @@ public class BoostService extends Service {
                 stopSelfNow();
                 return START_NOT_STICKY;
             }
-            toast("이번만 100%까지 충전");
+            toast(getString(R.string.toast_boost));
         }
 
         startedAt = System.currentTimeMillis();
@@ -107,12 +107,12 @@ public class BoostService extends Service {
 
         // 1) 완충 감지
         if (pct >= 100 || status == BatteryManager.BATTERY_STATUS_FULL) {
-            finishWith("완충 감지 → 충전 제한 복구");
+            finishWith(getString(R.string.restore_full));
             return;
         }
         // 2) 시간 초과 (알람이 늦을 때의 보조 확인)
         if (System.currentTimeMillis() >= ChargeLimiter.endAt(this)) {
-            finishWith("시간 초과 → 충전 제한 복구");
+            finishWith(getString(R.string.restore_timeout));
             return;
         }
         // 3) 분리 시 복구 (옵션): 유예 시간 뒤 복구, 그 전에 다시 연결되면 취소
@@ -127,7 +127,7 @@ public class BoostService extends Service {
         String hint = null;
         if (plugged && status == BatteryManager.BATTERY_STATUS_NOT_CHARGING
                 && System.currentTimeMillis() - startedAt > STALL_HINT_MS) {
-            hint = "충전이 재개되지 않으면 케이블을 뺐다가 다시 꽂을 것";
+            hint = getString(R.string.hint_replug);
             stallHintShown = true;
         } else if (stallHintShown && status == BatteryManager.BATTERY_STATUS_CHARGING) {
             stallHintShown = false;
@@ -144,18 +144,16 @@ public class BoostService extends Service {
     // ---------- 알림 ----------
 
     private void goForeground(String text) {
-        NotificationManager nm = getSystemService(NotificationManager.class);
-        if (nm.getNotificationChannel(CHANNEL) == null) {
-            nm.createNotificationChannel(new NotificationChannel(
-                    CHANNEL, "완전 충전 진행", NotificationManager.IMPORTANCE_LOW));
-        }
+        // 이미 있는 채널이면 이름만 갱신됨 (앱 언어를 바꾼 경우 반영)
+        getSystemService(NotificationManager.class).createNotificationChannel(new NotificationChannel(
+                CHANNEL, getString(R.string.noti_channel), NotificationManager.IMPORTANCE_LOW));
         startForeground(NOTI_ID, build(text), ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE);
     }
 
     private void updateNotification(String extra) {
         String until = DateFormat.getTimeInstance(DateFormat.SHORT)
                 .format(new Date(ChargeLimiter.endAt(this)));
-        String text = "완충 또는 " + until + "에 자동 복구" + (extra != null ? " · " + extra : "");
+        String text = getString(R.string.noti_text, until) + (extra != null ? " · " + extra : "");
         getSystemService(NotificationManager.class).notify(NOTI_ID, build(text));
     }
 
@@ -168,12 +166,12 @@ public class BoostService extends Service {
 
         return new Notification.Builder(this, CHANNEL)
                 .setSmallIcon(R.drawable.ic_bolt)
-                .setContentTitle("이번만 100%까지 충전 중")
+                .setContentTitle(getString(R.string.noti_title))
                 .setContentText(text)
                 .setStyle(new Notification.BigTextStyle().bigText(text))
                 .setOngoing(true)
                 .setContentIntent(openPi)
-                .addAction(new Notification.Action.Builder(null, "지금 제한 복구", restorePi).build())
+                .addAction(new Notification.Action.Builder(null, getString(R.string.btn_restore), restorePi).build())
                 .build();
     }
 
@@ -188,13 +186,13 @@ public class BoostService extends Service {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    static String messageFor(ChargeLimiter.StartResult r) {
+    private String messageFor(ChargeLimiter.StartResult r) {
         switch (r) {
-            case NO_PERMISSION: return "권한 없음: 앱을 열어 adb 권한 부여 필요";
-            case UNSUPPORTED: return "이 기기는 배터리 보호 설정 키가 없음";
-            case ALREADY_UNLIMITED: return "배터리 보호가 이미 꺼져 있음";
-            case ALREADY_ACTIVE: return "이미 완전 충전 진행 중";
-            case FAILED: return "설정 변경 실패";
+            case NO_PERMISSION: return getString(R.string.err_no_permission);
+            case UNSUPPORTED: return getString(R.string.err_unsupported);
+            case ALREADY_UNLIMITED: return getString(R.string.err_already_off);
+            case ALREADY_ACTIVE: return getString(R.string.err_already_active);
+            case FAILED: return getString(R.string.err_failed);
             default: return "";
         }
     }

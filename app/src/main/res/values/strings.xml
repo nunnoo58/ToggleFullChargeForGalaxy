@@ -1,27 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 기본(영어). 한국어는 values-ko, 일본어는 values-ja. 지원 언어 외의 시스템 언어에서는 이 파일이 쓰임 -->
 <resources>
-    <string name="app_name">이번만 완전 충전</string>
-    <string name="widget_desc">누르면 충전 제한을 잠시 풀고, 완충 또는 시간 초과 시 다시 제한함</string>
+    <string name="app_name">Toggle Full Charge</string>
+    <string name="widget_desc">Tap to lift the charge limit for a while; it is restored when full or when time runs out</string>
+
+    <!-- 언어와 관계없이 같은 표기 -->
+    <string name="menu_languages" translatable="false">Languages...</string>
+    <string name="languages_title" translatable="false">Languages</string>
+    <string name="lang_ko" translatable="false">한국어</string>
+    <string name="lang_en" translatable="false">English</string>
+    <string name="lang_ja" translatable="false">日本語</string>
+    <string name="widget_off" translatable="false">OFF</string>
+
+    <!-- 메뉴 -->
+    <string name="menu_about">About</string>
+    <string name="menu_legal">Legal notices</string>
+    <string name="cd_menu">Menu</string>
+    <string name="cd_back">Back</string>
+
+    <!-- 메인 화면 -->
+    <string name="perm_hint">Run once from a PC over USB debugging (kept until reinstall)</string>
+    <string name="copy_command">Copy command</string>
+    <string name="copied">Copied</string>
+    <string name="hours_label">Max duration in hours (1–24)</string>
+    <string name="hours_invalid">Duration must be 1–24 hours</string>
+    <string name="unplug_option">Restore if the charger is disconnected for 15 seconds or more</string>
+    <string name="btn_boost">Full charge this time</string>
+    <string name="btn_restore">Restore limit now</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="status_perm">Permission: %1$s</string>
+    <string name="perm_granted">granted</string>
+    <string name="perm_missing">missing (run the adb command below)</string>
+    <string name="status_mode">Battery protection: %1$s</string>
+    <string name="status_active">Status: charging to 100%% allowed, auto-restore at %1$s</string>
+    <string name="status_idle">Status: idle (limit applied)</string>
+
+    <!-- 배터리 보호 모드 -->
+    <string name="mode_unsupported">Not supported (no setting key)</string>
+    <string name="mode_off">Off</string>
+    <string name="mode_max">Maximum (stops at %1$d%%)</string>
+    <string name="mode_basic">Basic</string>
+    <string name="mode_sleep">Sleep time protection</string>
+    <string name="mode_unknown">Unknown value (%1$d)</string>
+
+    <!-- 위젯 -->
+    <string name="widget_need_perm">Permission needed</string>
+    <string name="widget_tap">Tap to fill</string>
+    <string name="widget_protect">Protected</string>
+
+    <!-- 알림·토스트 -->
+    <string name="toast_restored">Charge limit restored</string>
+    <string name="toast_boost">Charging to 100% this time</string>
+    <string name="restore_unplug">Charger disconnected → limit restored</string>
+    <string name="restore_full">Full charge detected → limit restored</string>
+    <string name="restore_timeout">Time is up → limit restored</string>
+    <string name="hint_replug">If charging does not resume, unplug the cable and plug it in again</string>
+    <string name="noti_checking">Checking…</string>
+    <string name="noti_channel">Full charge in progress</string>
+    <string name="noti_title">Charging to 100% this time</string>
+    <string name="noti_text">Auto-restore when full or at %1$s</string>
+    <string name="err_no_permission">No permission: open the app and grant it with adb</string>
+    <string name="err_unsupported">This device has no Battery Protection setting key</string>
+    <string name="err_already_off">Battery Protection is already off</string>
+    <string name="err_already_active">A full charge is already in progress</string>
+    <string name="err_failed">Failed to change the setting</string>
 
     <!-- 만든 사람 페이지. %1$s = 버전명 -->
-    <string name="about_text">이번만 완전 충전\n버전 %1$s
-        \n\n만든 사람: NUNNOO58
-        \n\n이 앱은 Anthropic의 AI 어시스턴트인 Claude를 이용해 만들었습니다.
-        코드 작성, 빌드, 문서화를 Claude와 함께 진행했습니다.</string>
+    <string name="about_text">Toggle Full Charge\nVersion %1$s
+        \n\nMade by: NUNNOO58
+        \n\nThis app was built with Claude, an AI assistant by Anthropic.
+        Coding, building, and documentation were done together with Claude.</string>
 
-    <!-- 법적 고지 페이지. 고지 문구는 README의 '라이선스 및 면책'과 같음. 라이선스 전문은 LICENSE 파일 -->
-    <string name="legal_text">이 앱은 삼성전자 및 Apple과 관련이 없는 비공식 개인 프로젝트입니다.
-        Samsung, Galaxy, One UI는 삼성전자의 상표이고 Mac은 Apple Inc.의 상표이며,
-        호환 기기와 기능을 설명하는 용도로만 사용합니다.
-        \n\n이 소프트웨어는 \"있는 그대로\" 제공되며, 어떠한 종류의 보증도 하지 않습니다.
-        이 앱의 사용으로 발생하는 배터리 수명 저하, 기기 이상 등 모든 문제에 대해 작성자는 책임지지 않습니다.
-        사용 여부는 본인의 판단으로 결정해 주시기 바랍니다.
-        \n\n라이선스
+    <!-- 법적 고지 페이지. README.en의 'License and disclaimer'와 같음 -->
+    <string name="legal_text">This is an unofficial personal project and is not affiliated with Samsung Electronics or Apple.
+        Samsung, Galaxy, and One UI are trademarks of Samsung Electronics, and Mac is a trademark of Apple Inc.;
+        they are used only to describe compatible devices and features.
+        \n\nThis software is provided \"as is,\" without warranty of any kind.
+        The author is not responsible for any problems arising from the use of this app,
+        including reduced battery lifespan or device malfunction. Please use it at your own discretion.
+        \n\nLicense
         \n\nCopyright (c) 2026 NUNNOO58
-        \n\n이 앱과 소스 코드는 v1.5.1부터 CC BY-ND 4.0으로 배포됩니다.
-        출처를 밝히면 상업적 목적을 포함해 원본 그대로 복사하고 재배포할 수 있지만, 수정한 버전은 배포할 수 없습니다.
-        v1.5 이하는 MIT 라이선스로 배포되었습니다.
-        \n\nLicensed under CC BY-ND 4.0. Full text:
+        \n\nStarting with v1.5.1, this app and its source code are distributed under CC BY-ND 4.0.
+        You may copy and redistribute them unmodified, including for commercial purposes, as long as you give credit,
+        but you may not distribute modified versions. Versions 1.5 and earlier were released under the MIT License.
+        \n\nFull text of CC BY-ND 4.0:
         \nhttps://creativecommons.org/licenses/by-nd/4.0/legalcode
-        \n\n법적 효력은 라이선스 영문 원문을 기준으로 합니다.</string>
+        \n\nThe English text of the license is legally authoritative.</string>
 </resources>
