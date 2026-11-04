@@ -91,6 +91,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
+        Switch keepFull = findViewById(R.id.keep_full);
+        keepFull.setChecked(ChargeLimiter.keepAfterFull(this));
+        keepFull.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean on) {
+                ChargeLimiter.setKeepAfterFull(MainActivity.this, on);
+            }
+        });
+
         Switch unplug = findViewById(R.id.unplug);
         unplug.setChecked(ChargeLimiter.restoreOnUnplug(this));
         unplug.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -217,7 +226,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             sb.append(getString(R.string.status_active, DateFormat.getTimeInstance(DateFormat.SHORT)
                     .format(new Date(ChargeLimiter.endAt(this)))));
         } else {
-            sb.append(getString(R.string.status_idle));
+            sb.append(getString(ChargeLimiter.isLimitFull(this, mode)
+                    ? R.string.status_limit_full : R.string.status_idle));
         }
         status.setText(sb);
         findViewById(R.id.perm_box).setVisibility(perm ? View.GONE : View.VISIBLE);

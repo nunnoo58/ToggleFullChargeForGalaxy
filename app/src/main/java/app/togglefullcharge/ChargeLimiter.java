@@ -30,8 +30,9 @@ public final class ChargeLimiter {
     private static final String P_END_AT = "end_at";
     private static final String P_HOURS = "hours";
     private static final String P_UNPLUG = "restore_on_unplug";
+    private static final String P_KEEP_FULL = "keep_after_full";
 
-    public enum StartResult { STARTED, NO_PERMISSION, UNSUPPORTED, ALREADY_UNLIMITED, ALREADY_ACTIVE, FAILED }
+    public enum StartResult { STARTED, NO_PERMISSION, UNSUPPORTED, ALREADY_UNLIMITED, LIMIT_FULL, ALREADY_ACTIVE, FAILED }
 
     private ChargeLimiter() {}
 
@@ -61,6 +62,11 @@ public final class ChargeLimiter {
             case 4: return ctx.getString(R.string.mode_sleep);
             default: return ctx.getString(R.string.mode_unknown, mode);
         }
+    }
+
+    /** 최대 모드의 한도가 100%라 제한을 풀어도 달라지는 것이 없는 상태 */
+    public static boolean isLimitFull(Context ctx, int mode) {
+        return limitPercent(ctx, mode) >= 100;
     }
 
     /** 위젯에 표시할 제한 퍼센트. 최대 모드가 아니면 -1 */
@@ -103,6 +109,10 @@ public final class ChargeLimiter {
     public static boolean restoreOnUnplug(Context ctx) { return prefs(ctx).getBoolean(P_UNPLUG, false); }
     public static void setRestoreOnUnplug(Context ctx, boolean v) { prefs(ctx).edit().putBoolean(P_UNPLUG, v).apply(); }
 
+    /** 켜면 100%에 도달해도 복구하지 않고 최대 유지 시간이 끝날 때 복구 */
+    public static boolean keepAfterFull(Context ctx) { return prefs(ctx).getBoolean(P_KEEP_FULL, false); }
+    public static void setKeepAfterFull(Context ctx, boolean v) { prefs(ctx).edit().putBoolean(P_KEEP_FULL, v).apply(); }
+
     // ---------- 동작 ----------
 
     /** 제한 해제(100%까지 충전 허용). 서비스 시작은 호출자가 담당 */
@@ -113,6 +123,7 @@ public final class ChargeLimiter {
         int mode = readMode(ctx);
         if (mode == MODE_UNSUPPORTED) return StartResult.UNSUPPORTED;
         if (mode == MODE_OFF) return StartResult.ALREADY_UNLIMITED;
+        if (isLimitFull(ctx, mode)) return StartResult.LIMIT_FULL;
 
         long end = System.currentTimeMillis() + hours(ctx) * 3_600_000L;
         // 쓰기 전에 원래 모드를 먼저 저장(중간에 죽어도 복구 가능하도록)

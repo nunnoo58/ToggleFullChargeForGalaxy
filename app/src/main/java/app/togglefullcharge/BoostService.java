@@ -64,6 +64,8 @@ public class BoostService extends Service {
             ChargeLimiter.StartResult r = ChargeLimiter.startBoost(this);
             if (r != ChargeLimiter.StartResult.STARTED) {
                 toast(messageFor(r));
+                // 앱이 꺼진 사이 설정이 바뀌었을 수 있으므로 누른 순간의 상태로 위젯을 다시 그림
+                ChargeWidgetProvider.updateAll(this);
                 if (r == ChargeLimiter.StartResult.NO_PERMISSION
                         || r == ChargeLimiter.StartResult.UNSUPPORTED) {
                     startActivity(new Intent(this, MainActivity.class)
@@ -105,8 +107,9 @@ public class BoostService extends Service {
         int status = i.getIntExtra(BatteryManager.EXTRA_STATUS, BatteryManager.BATTERY_STATUS_UNKNOWN);
         boolean plugged = i.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) != 0;
 
-        // 1) 완충 감지
-        if (pct >= 100 || status == BatteryManager.BATTERY_STATUS_FULL) {
+        // 1) 완충 감지 (완충 후 유지 옵션을 켜면 시간 초과까지 유지)
+        if ((pct >= 100 || status == BatteryManager.BATTERY_STATUS_FULL)
+                && !ChargeLimiter.keepAfterFull(this)) {
             finishWith(getString(R.string.restore_full));
             return;
         }
@@ -153,7 +156,8 @@ public class BoostService extends Service {
     private void updateNotification(String extra) {
         String until = DateFormat.getTimeInstance(DateFormat.SHORT)
                 .format(new Date(ChargeLimiter.endAt(this)));
-        String text = getString(R.string.noti_text, until) + (extra != null ? " · " + extra : "");
+        String text = getString(ChargeLimiter.keepAfterFull(this) ? R.string.noti_text_keep : R.string.noti_text, until)
+                + (extra != null ? " · " + extra : "");
         getSystemService(NotificationManager.class).notify(NOTI_ID, build(text));
     }
 
@@ -192,6 +196,7 @@ public class BoostService extends Service {
             case UNSUPPORTED: return getString(R.string.err_unsupported);
             case ALREADY_UNLIMITED: return getString(R.string.err_already_off);
             case ALREADY_ACTIVE: return getString(R.string.err_already_active);
+            case LIMIT_FULL: return getString(R.string.err_limit_full);
             case FAILED: return getString(R.string.err_failed);
             default: return "";
         }

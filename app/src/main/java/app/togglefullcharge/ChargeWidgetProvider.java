@@ -48,7 +48,9 @@ public class ChargeWidgetProvider extends AppWidgetProvider {
             int limit = ChargeLimiter.limitPercent(ctx, mode);
             v.setTextViewText(R.id.big, limit > 0 ? limit + "%"
                     : ctx.getString(mode == 0 ? R.string.widget_off : R.string.widget_protect));
-            v.setTextViewText(R.id.small, ctx.getString(R.string.widget_tap));
+            // 최대 모드 한도가 100%면 눌러도 소용없으므로 한도를 낮추라고 안내
+            v.setTextViewText(R.id.small, ctx.getString(ChargeLimiter.isLimitFull(ctx, mode)
+                    ? R.string.widget_lower_limit : R.string.widget_tap));
             v.setImageViewResource(R.id.bg, R.drawable.widget_bg_idle);
         }
 

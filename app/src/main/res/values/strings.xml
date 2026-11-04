@@ -24,6 +24,7 @@
     <string name="copied">Copied</string>
     <string name="hours_label">Max duration in hours (1–24)</string>
     <string name="hours_invalid">Duration must be 1–24 hours</string>
+    <string name="keep_full_option">Keep charging at full until the duration ends</string>
     <string name="unplug_option">Restore if the charger is disconnected for 15 seconds or more</string>
     <string name="btn_boost">Full charge this time</string>
     <string name="btn_restore">Restore limit now</string>
@@ -34,6 +35,7 @@
     <string name="status_mode">Battery protection: %1$s</string>
     <string name="status_active">Status: charging to 100%% allowed, auto-restore at %1$s</string>
     <string name="status_idle">Status: idle (limit applied)</string>
+    <string name="status_limit_full">Status: not needed, the limit is already 100%. Lower the charge limit in Settings first.</string>
 
     <!-- 배터리 보호 모드 -->
     <string name="mode_unsupported">Not supported (no setting key)</string>
@@ -48,6 +50,7 @@
     <string name="widget_need_perm_big">NO</string>
     <string name="widget_need_perm">Permission</string>
     <string name="widget_tap">Tap to fill</string>
+    <string name="widget_lower_limit">Lower limit</string>
     <string name="widget_protect">Protected</string>
 
     <!-- 알림·토스트 -->
@@ -61,9 +64,11 @@
     <string name="noti_channel">Full charge in progress</string>
     <string name="noti_title">Charging to 100% this time</string>
     <string name="noti_text">Auto-restore when full or at %1$s</string>
+    <string name="noti_text_keep">Auto-restore at %1$s</string>
     <string name="err_no_permission">No permission: open the app and grant it with adb</string>
     <string name="err_unsupported">This device has no Battery Protection setting key</string>
     <string name="err_already_off">Battery Protection is already off</string>
+    <string name="err_limit_full">Lower the charge limit in Settings first</string>
     <string name="err_already_active">A full charge is already in progress</string>
     <string name="err_failed">Failed to change the setting</string>
 

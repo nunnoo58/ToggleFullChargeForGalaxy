@@ -15,6 +15,7 @@
     <string name="copied">コピーしました</string>
     <string name="hours_label">最大維持時間（1〜24時間）</string>
     <string name="hours_invalid">維持時間は1〜24時間で指定してください</string>
+    <string name="keep_full_option">満充電後も維持時間が終わるまで維持</string>
     <string name="unplug_option">充電器を15秒以上外したら制限を戻す</string>
     <string name="btn_boost">今回だけフル充電</string>
     <string name="btn_restore">今すぐ制限を戻す</string>
@@ -25,6 +26,7 @@
     <string name="status_mode">現在の[バッテリーを保護]: %1$s</string>
     <string name="status_active">状態: 100%%までの充電を許可中、%1$sに自動で戻す</string>
     <string name="status_idle">状態: 待機中（制限を適用中）</string>
+    <string name="status_limit_full">状態: 上限が100%のため不要です。先に設定で上限を下げてください。</string>
 
     <!-- 배터리 보호 모드 -->
     <string name="mode_unsupported">非対応（設定キーなし）</string>
@@ -38,6 +40,7 @@
     <string name="widget_need_perm_big">!</string>
     <string name="widget_need_perm">権限が必要</string>
     <string name="widget_tap">タップで満充電</string>
+    <string name="widget_lower_limit">上限を下げて</string>
     <string name="widget_protect">保護</string>
 
     <!-- 알림·토스트 -->
@@ -51,9 +54,11 @@
     <string name="noti_channel">フル充電の進行状況</string>
     <string name="noti_title">今回だけ100%まで充電中</string>
     <string name="noti_text">満充電または%1$sに自動で戻します</string>
+    <string name="noti_text_keep">%1$sに自動で戻します</string>
     <string name="err_no_permission">権限がありません: アプリを開いてadbで権限を付与してください</string>
     <string name="err_unsupported">この端末には[バッテリーを保護]の設定キーがありません</string>
     <string name="err_already_off">[バッテリーを保護]はすでにOFFです</string>
+    <string name="err_limit_full">先に設定で上限を下げてください</string>
     <string name="err_already_active">すでにフル充電中です</string>
     <string name="err_failed">設定の変更に失敗しました</string>
 

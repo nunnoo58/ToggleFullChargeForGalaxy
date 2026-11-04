@@ -10,9 +10,11 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app is available in Korean, English, and Japanese. Choose the language from the menu (≡) → Languages... By default it follows the phone's language, and it uses English for other languages.
 
-## Latest version: v2.1 (2026-11-04)
+## Latest version: v2.1.1 (2026-11-04)
 
-- The English widget now shows "NO / Permission" when the permission is missing (fixes "Permission needed" being cut off in the 1×1 widget)
+- Added the "Keep charging at full until the duration ends" option (when on, the limit stays lifted after reaching 100% until the set time)
+- When the Maximum limit of Battery protection is 100%, the app no longer lifts it and shows "Lower the charge limit in Settings first"; the widget shows "Lower limit"
+- When a widget tap does not lift the limit (limit at 100%, no permission, and so on), the widget is redrawn with the current state
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
@@ -100,7 +102,7 @@ If the second result is `0`, `1`, `3`, or `4`, the app can be used. If it is `nu
 ### 4. Install and grant the permission
 
 ```
-adb install -r ToggleFullChargeForGalaxy-v2.1.apk
+adb install -r ToggleFullChargeForGalaxy-v2.1.1.apk
 Performing Streamed Install
 Success
 
@@ -114,7 +116,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 - **After a reboot or a Wi-Fi change while connected over Wi-Fi**: Wireless debugging turns off. When you turn it back on, the connection port changes, so start again from the connect step in 2-2 using the newly shown address. You do not need to pair again.
 - **With multiple devices connected**: If you see `error: more than one device/emulator`, specify the target with `-s` on every command.
   ```
-  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.1.apk
+  adb -s 192.168.xxx.xxx:xxxxx install -r ToggleFullChargeForGalaxy-v2.1.1.apk
   ```
   Alternatively, run `adb disconnect` to drop all existing connections and connect only one device.
 - **Updating from 1.2 or earlier**: Starting with 1.3, the package name changed to `app.togglefullcharge`, so it does not install over the old app. Make sure the limit is restored in the old app (the widget shows 80%), uninstall the old app, then install the new version and grant the permission again. You will also need to add the widget again.
@@ -130,11 +132,12 @@ The permission command prints nothing when it succeeds. Open the app, check that
   - 0 Off / 1 Maximum (`battery_protection_threshold`%) / 3 Basic / 4 Sleep time protection (One UI 9)
 - When you tap the widget, the app saves the current value, sets `protect_battery` to 0, and a foreground service monitors the battery.
 - The saved value is restored when any of the following happens:
-  - Battery reaches 100% or the full-charge state is detected
+  - Battery reaches 100% or the full-charge state is detected (not when the "Keep charging at full" option is on)
   - The set time runs out (3 hours by default)
   - The charger stays disconnected for 15 seconds or more (optional)
   - The "Restore limit now" button in the notification is tapped, or the widget or app button is tapped again
   - The device reboots
+- If Battery protection is set to Maximum with a 100% limit, there is nothing to lift, so the app does not lift it and asks you to lower the limit in Settings first.
 
 ## Known limitations
 
@@ -145,7 +148,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–04. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1.1), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2) on 2026-11-02–04. Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -179,6 +182,10 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1), a Galaxy S23 (One UI 9
 - [x] Battery Protection mode names match the official One UI 9 names in Korean, English, and Japanese (v2.0, S26)
 - [x] In English and Japanese, notifications (title, text, button, stalled-charging hint), toasts, the widget, Legal notices, and the no-permission screen are shown without being cut off (v2.0–2.1, S26)
 - [x] Without the permission, the widget shows "NO / Permission" in English, "! / 권한 필요" in Korean, and "! / 権限が必要" in Japanese (v2.1, S26)
+- [x] With limits of 85, 90, and 95%, the display is correct and the limit is kept after lifting and restoring (v2.1.1, S26)
+- [x] With a 100% limit, lifting is blocked and the app, toast, and widget show a hint; toasts are not cut off in any of the three languages (v2.1.1, S26)
+- [x] If the limit changes while the app is closed, tapping the widget acts on the current state and refreshes the widget (v2.1.1, S26)
+- [x] With "Keep charging at full" on, the limit stays lifted at 100% and in the full state; with it off, it is restored at 100% (v2.1.1, S26)
 - [x] The app name is shown once, and status bar icons are dark in light mode (v1.5, S23)
 
 ## License and disclaimer

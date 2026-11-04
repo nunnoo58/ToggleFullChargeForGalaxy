@@ -15,6 +15,7 @@
     <string name="copied">복사됨</string>
     <string name="hours_label">최대 유지 시간(1~24)</string>
     <string name="hours_invalid">유지 시간은 1~24시간만 가능</string>
+    <string name="keep_full_option">완충 후에도 유지 시간이 끝날 때까지 유지</string>
     <string name="unplug_option">충전기를 15초 이상 분리하면 복구</string>
     <string name="btn_boost">이번만 완전 충전</string>
     <string name="btn_restore">지금 제한 복구</string>
@@ -25,6 +26,7 @@
     <string name="status_mode">현재 배터리 보호: %1$s</string>
     <string name="status_active">상태: 100%% 충전 허용 중, %1$s에 자동 복구</string>
     <string name="status_idle">상태: 대기 (제한 적용 중)</string>
+    <string name="status_limit_full">상태: 한도가 100%라 사용할 필요가 없습니다. 먼저 설정에서 한도를 낮춰야 합니다.</string>
 
     <!-- 배터리 보호 모드 -->
     <string name="mode_unsupported">지원 안 됨(설정 키 없음)</string>
@@ -38,6 +40,7 @@
     <string name="widget_need_perm_big">!</string>
     <string name="widget_need_perm">권한 필요</string>
     <string name="widget_tap">눌러서 완충</string>
+    <string name="widget_lower_limit">한도 하향 필요</string>
     <string name="widget_protect">보호</string>
 
     <!-- 알림·토스트 -->
@@ -51,9 +54,12 @@
     <string name="noti_channel">완전 충전 진행</string>
     <string name="noti_title">이번만 100%까지 충전 중</string>
     <string name="noti_text">완충 또는 %1$s에 자동 복구</string>
+    <string name="noti_text_keep">%1$s에 자동 복구</string>
     <string name="err_no_permission">권한 없음: 앱을 열어 adb 권한 부여 필요</string>
     <string name="err_unsupported">이 기기는 배터리 보호 설정 키가 없음</string>
     <string name="err_already_off">배터리 보호가 이미 꺼져 있음</string>
+    <!-- 토스트는 두 줄까지만 보이므로 짧게 -->
+    <string name="err_limit_full">먼저 설정에서 한도를 낮춰야 합니다</string>
     <string name="err_already_active">이미 완전 충전 진행 중</string>
     <string name="err_failed">설정 변경 실패</string>
 

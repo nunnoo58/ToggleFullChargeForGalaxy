@@ -4,6 +4,12 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v2.1.1 (2026-11-04)
+
+- Added the "Keep charging at full until the duration ends" option (when on, the limit stays lifted after reaching 100% until the set time)
+- When the Maximum limit of Battery protection is 100%, the app no longer lifts it and shows "Lower the charge limit in Settings first"; the widget shows "Lower limit"
+- When a widget tap does not lift the limit (limit at 100%, no permission, and so on), the widget is redrawn with the current state
+
 ## v2.1 (2026-11-04)
 
 - The English widget now shows "NO / Permission" when the permission is missing (fixes "Permission needed" being cut off in the 1×1 widget)
