@@ -4,6 +4,10 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v2.1.2 (2026-11-04)
+
+- Added the GitHub address to the About page (tap it to open in a browser)
+
 ## v2.1.1 (2026-11-04)
 
 - Added the "Keep charging at full until the duration ends" option (when on, the limit stays lifted after reaching 100% until the set time)

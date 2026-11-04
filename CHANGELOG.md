@@ -4,6 +4,10 @@
 
 각 버전의 APK는 [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases)에서 받을 수 있습니다.
 
+## v2.1.2 (2026-11-04)
+
+- "만든 사람" 화면에 GitHub 주소 추가 (누르면 브라우저로 열림)
+
 ## v2.1.1 (2026-11-04)
 
 - "완충 후에도 유지 시간이 끝날 때까지 유지" 옵션 추가 (켜면 100%에 도달해도 설정한 시간까지 해제 유지)

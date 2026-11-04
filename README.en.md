@@ -10,11 +10,9 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app is available in Korean, English, and Japanese. Choose the language from the menu (≡) → Languages... By default it follows the phone's language, and it uses English for other languages.
 
-## Latest version: v2.1.1
+## Latest version: v2.1.2
 
-- Added the "Keep charging at full until the duration ends" option (when on, the limit stays lifted after reaching 100% until the set time)
-- When the Maximum limit of Battery protection is 100%, the app no longer lifts it and shows "Lower the charge limit in Settings first"; the widget shows "Lower limit"
-- When a widget tap does not lift the limit (limit at 100%, no permission, and so on), the widget is redrawn with the current state
+- Added the GitHub address to the About page (tap it to open in a browser)
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 

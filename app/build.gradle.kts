@@ -3,8 +3,8 @@ plugins {
 }
 
 // 버전명은 여기서만 바꾸면 APK 파일명에도 반영됨 (예: ToggleFullChargeForGalaxy-v2.1.1-debug.apk)
-val appVersionName = "2.1.1"
-val appVersionCode = 13
+val appVersionName = "2.1.2"
+val appVersionCode = 14
 
 android {
     namespace = "app.togglefullcharge"

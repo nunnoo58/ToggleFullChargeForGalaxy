@@ -3,6 +3,7 @@ package app.togglefullcharge;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class InfoActivity extends Activity {
             body.setText(R.string.legal_text);
         } else {
             title.setText(R.string.menu_about);
+            // GitHub 주소를 눌러 열 수 있게 함
+            body.setAutoLinkMask(Linkify.WEB_URLS);
             body.setText(getString(R.string.about_text, versionName()));
         }
     }

@@ -66,6 +66,7 @@
     <!-- 만든 사람 페이지. %1$s = 버전명 -->
     <string name="about_text">이번만 완전 충전\n버전 %1$s
         \n\n만든 사람: NUNNOO58
+        \nGitHub: https://github.com/nunnoo58
         \n\n이 앱은 Anthropic의 AI 어시스턴트인 Claude를 이용해 만들었습니다.
         코드 작성, 빌드, 문서화를 Claude와 함께 진행했습니다.</string>
 
