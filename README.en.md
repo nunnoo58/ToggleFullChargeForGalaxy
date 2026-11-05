@@ -16,6 +16,14 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
+## Why I made this
+
+I set an 80% charge limit on my devices because I was worried about battery wear. Then, on a long weekend trip, I forgot to lift the limit and set off at around 70%. By the time I got home, only 30–40% was left. The battery was not dead, but it was a level that could be a problem if anything came up.
+
+## Who it's for
+
+People who travel often but find power banks too heavy and want to get by on their phone battery, who set a charge limit out of fear of battery wear but forget to lift it and end up losing about 20% — people like the author of this app.
+
 ## Installation
 
 Install the app and grant the permission from a PC using adb. The steps below use the Windows Command Prompt (CMD). All IP addresses, ports, and pairing codes in the examples are placeholders; enter the values shown on your phone's screen.
