@@ -145,6 +145,12 @@ The permission command prints nothing when it succeeds. Open the app, check that
   - The device reboots
 - If Battery protection is set to Maximum with a 100% limit, there is nothing to lift, so the app does not lift it and asks you to lower the limit in Settings first.
 
+## TODO
+
+- [ ] Automation
+  - [ ] Samsung Modes and Routines integration: start a full charge automatically when conditions (location, time, Bluetooth connection, and so on) are met
+  - [ ] Lift the limit when a calendar event title contains a specific keyword
+
 ## Known limitations
 
 - The "Restore if the charger is disconnected for 15 seconds or more" option waits 15 seconds after a disconnection before restoring. If the phone briefly shifts on a wireless charging pad and resumes charging within 15 seconds, the limit is not restored; if it stays off the pad longer, it is.
