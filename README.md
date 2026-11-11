@@ -151,7 +151,7 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 - [ ] 자동화 개발
   - [ ] 삼성 "모드 및 루틴" 연동: 조건(장소, 시간, 블루투스 연결 등)에 맞으면 완전 충전 자동 시작
-  - [ ] 캘린더 일정 제목에서 특정 키워드를 찾으면 제한 해제
+  - [ ] 캘린더 일정 제목에서 특정 키워드(TFC)를 찾으면 제한 해제
 
 ## 알려진 한계
 

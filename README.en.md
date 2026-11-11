@@ -149,7 +149,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 - [ ] Automation
   - [ ] Samsung Modes and Routines integration: start a full charge automatically when conditions (location, time, Bluetooth connection, and so on) are met
-  - [ ] Lift the limit when a calendar event title contains a specific keyword
+  - [ ] Lift the limit when a calendar event title contains a specific keyword (TFC)
 
 ## Known limitations
 
