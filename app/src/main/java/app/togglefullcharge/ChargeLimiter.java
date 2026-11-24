@@ -11,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.os.UserManager;
 import android.provider.Settings;
 
+import java.util.Calendar;
+
 /**
  * 삼성 One UI '배터리 보호' 설정(Settings.Global)을 읽고 쓰는 핵심 로직.
  *
@@ -31,6 +33,9 @@ public final class ChargeLimiter {
     private static final String P_HOURS = "hours";
     private static final String P_UNPLUG = "restore_on_unplug";
     private static final String P_KEEP_FULL = "keep_after_full";
+    private static final String P_SCHEDULE = "schedule";
+    private static final String P_SCHEDULE_DAYS = "schedule_days";
+    private static final String P_SCHEDULE_MINUTE = "schedule_minute";
 
     public enum StartResult { STARTED, NO_PERMISSION, UNSUPPORTED, ALREADY_UNLIMITED, LIMIT_FULL, ALREADY_ACTIVE, FAILED }
 
@@ -113,6 +118,19 @@ public final class ChargeLimiter {
     public static boolean keepAfterFull(Context ctx) { return prefs(ctx).getBoolean(P_KEEP_FULL, false); }
     public static void setKeepAfterFull(Context ctx, boolean v) { prefs(ctx).edit().putBoolean(P_KEEP_FULL, v).apply(); }
 
+    /** 예약 실행. 요일은 Calendar.DAY_OF_WEEK 값을 비트로 묶음 (기본: 토·일 오전 6시) */
+    public static boolean scheduleOn(Context ctx) { return prefs(ctx).getBoolean(P_SCHEDULE, false); }
+    public static void setScheduleOn(Context ctx, boolean v) { prefs(ctx).edit().putBoolean(P_SCHEDULE, v).apply(); }
+
+    public static int scheduleDays(Context ctx) {
+        return prefs(ctx).getInt(P_SCHEDULE_DAYS, (1 << Calendar.SATURDAY) | (1 << Calendar.SUNDAY));
+    }
+    public static void setScheduleDays(Context ctx, int days) { prefs(ctx).edit().putInt(P_SCHEDULE_DAYS, days).apply(); }
+
+    /** 하루 중 실행 시각(0시부터 분 단위) */
+    public static int scheduleMinute(Context ctx) { return prefs(ctx).getInt(P_SCHEDULE_MINUTE, 6 * 60); }
+    public static void setScheduleMinute(Context ctx, int m) { prefs(ctx).edit().putInt(P_SCHEDULE_MINUTE, m).apply(); }
+
     // ---------- 동작 ----------
 
     /** 제한 해제(100%까지 충전 허용). 서비스 시작은 호출자가 담당 */
@@ -175,5 +193,43 @@ public final class ChargeLimiter {
 
     private static void cancelTimeout(Context ctx) {
         ctx.getSystemService(AlarmManager.class).cancel(timeoutIntent(ctx));
+    }
+
+    // ---------- 예약 실행 알람 ----------
+
+    /** 다음 예약 시각. 꺼져 있거나 고른 요일이 없으면 0 */
+    public static long nextScheduled(Context ctx) {
+        int days = scheduleDays(ctx);
+        if (!scheduleOn(ctx) || days == 0) return 0;
+        int minute = scheduleMinute(ctx);
+        Calendar c = Calendar.getInstance();
+        long now = c.getTimeInMillis();
+        c.set(Calendar.HOUR_OF_DAY, minute / 60);
+        c.set(Calendar.MINUTE, minute % 60);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        // 오늘 시각이 이미 지났으면 다음 주 같은 요일까지 확인해야 하므로 8일
+        for (int i = 0; i < 8; i++) {
+            if ((days & (1 << c.get(Calendar.DAY_OF_WEEK))) != 0 && c.getTimeInMillis() > now) {
+                return c.getTimeInMillis();
+            }
+            c.add(Calendar.DAY_OF_MONTH, 1);
+        }
+        return 0;
+    }
+
+    /** 예약 알람을 다시 맞춤. 설정 변경, 예약 실행, 재부팅·시간 변경·업데이트, 앱을 열 때 호출 */
+    public static void reschedule(Context ctx) {
+        AlarmManager am = ctx.getSystemService(AlarmManager.class);
+        Intent i = new Intent(ctx, ActionReceiver.class).setAction(ActionReceiver.ACTION_SCHEDULE);
+        PendingIntent pi = PendingIntent.getBroadcast(ctx, 4, i,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        long at = nextScheduled(ctx);
+        if (at == 0) {
+            am.cancel(pi);
+            return;
+        }
+        // 정확 알람(USE_EXACT_ALARM)이어야 알람을 받은 뒤 백그라운드에서 포그라운드 서비스를 시작할 수 있음
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
     }
 }

@@ -108,6 +108,34 @@
             android:layout_marginTop="8dp"
             android:text="@string/unplug_option" />
 
+        <Switch
+            android:id="@+id/schedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/schedule_option" />
+
+        <!-- 예약 요일·시각. 누르면 선택 창. 예약을 끄면 숨김 -->
+        <LinearLayout
+            android:id="@+id/schedule_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/schedule_days"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/schedule_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
         <!-- 상태에 따라 "이번만 완전 충전" ↔ "지금 제한 복구"로 바뀌는 토글 버튼 -->
         <Button
             android:id="@+id/toggle"

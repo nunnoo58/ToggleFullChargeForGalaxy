@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 예약 시각 선택 창의 내용. 휠 방식이며 숫자를 누르면 키보드로도 입력 가능 -->
+<TimePicker xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:timePickerMode="spinner" />

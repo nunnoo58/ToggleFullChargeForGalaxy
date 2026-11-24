@@ -10,9 +10,10 @@ Mac의 "지금 완전히 충전" 기능을 갤럭시에서 흉내 내는 앱입�
 - 테스트 완료: 갤럭시 S23, S26 (One UI 9), 갤럭시 Tab S8+ (One UI 8)
 - 앱은 한국어, 영어, 일본어를 지원합니다. 메뉴(≡) → Languages...에서 고를 수 있으며, 처음에는 휴대폰 언어를 따르고 세 언어 외에는 영어로 표시됩니다.
 
-## 최신 버전: v2.1.2
+## 최신 버전: v2.2.0
 
-- "만든 사람" 화면에 GitHub 주소 추가 (누르면 브라우저로 열림)
+- "정해진 요일·시각에 자동 실행" 옵션 추가: 고른 요일과 시각에 "이번만 완전 충전"을 자동으로 실행 (요일은 월\~일 중 선택하며 평일·주말·매일은 묶음 이름으로 표시, 시각은 휠로 선택)
+- 예약을 제시각에 실행하기 위해 정확 알람 권한(USE_EXACT_ALARM) 추가 (설치 시 자동 부여, adb 불필요)
 
 이전 버전의 변경 내역은 [CHANGELOG.md](CHANGELOG.md), APK는 [최신 릴리스](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest)에서 볼 수 있습니다.
 
@@ -151,7 +152,6 @@ adb shell pm grant app.togglefullcharge android.permission.WRITE_SECURE_SETTINGS
 
 - [ ] 자동화 개발
   - [ ] 삼성 "모드 및 루틴" 연동: 조건(장소, 시간, 블루투스 연결 등)에 맞으면 완전 충전 자동 시작
-  - [ ] 캘린더 일정 제목에서 특정 키워드(TFC)를 찾으면 제한 해제
 
 ## 알려진 한계
 

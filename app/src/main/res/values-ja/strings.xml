@@ -17,6 +17,12 @@
     <string name="hours_invalid">維持時間は1〜24時間で指定してください</string>
     <string name="keep_full_option">満充電後も維持時間が終わるまで維持</string>
     <string name="unplug_option">充電器を15秒以上外したら制限を戻す</string>
+    <string name="schedule_option">決まった曜日・時刻に自動で実行</string>
+    <string name="schedule_days_none">曜日を選択</string>
+    <string name="schedule_days_title">曜日</string>
+    <string name="schedule_every_day">毎日</string>
+    <string name="schedule_weekdays">平日</string>
+    <string name="schedule_weekends">週末</string>
     <string name="btn_boost">今回だけフル充電</string>
     <string name="btn_restore">今すぐ制限を戻す</string>
     <string name="btn_refresh">更新</string>
@@ -27,6 +33,7 @@
     <string name="status_active">状態: 100%%までの充電を許可中、%1$sに自動で戻す</string>
     <string name="status_idle">状態: 待機中（制限を適用中）</string>
     <string name="status_limit_full">状態: 上限が100%のため不要です。先に設定で上限を下げてください。</string>
+    <string name="status_next">次の予約実行: %1$s</string>
 
     <!-- 배터리 보호 모드 -->
     <string name="mode_unsupported">非対応（設定キーなし）</string>

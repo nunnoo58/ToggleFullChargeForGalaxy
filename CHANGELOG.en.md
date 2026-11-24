@@ -4,6 +4,11 @@
 
 The APK for each version is available on the [Releases](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases) page.
 
+## v2.2.0 (2026-11-25)
+
+- Added the "Run automatically on the set days and time" option: runs "Full charge this time" automatically on the chosen days and time (pick any of Mon–Sun, with Weekdays, Weekends, and Every day shown by name; pick the time with a wheel)
+- Added the exact alarm permission (USE_EXACT_ALARM) so scheduled runs start on time (granted automatically at install, no adb needed)
+
 ## v2.1.2 (2026-11-04)
 
 - Added the GitHub address to the About page (tap it to open in a browser)

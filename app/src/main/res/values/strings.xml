@@ -26,6 +26,12 @@
     <string name="hours_invalid">Duration must be 1–24 hours</string>
     <string name="keep_full_option">Keep charging at full until the duration ends</string>
     <string name="unplug_option">Restore if the charger is disconnected for 15 seconds or more</string>
+    <string name="schedule_option">Run automatically on the set days and time</string>
+    <string name="schedule_days_none">Choose days</string>
+    <string name="schedule_days_title">Days</string>
+    <string name="schedule_every_day">Every day</string>
+    <string name="schedule_weekdays">Weekdays</string>
+    <string name="schedule_weekends">Weekends</string>
     <string name="btn_boost">Full charge this time</string>
     <string name="btn_restore">Restore limit now</string>
     <string name="btn_refresh">Refresh</string>
@@ -36,6 +42,7 @@
     <string name="status_active">Status: charging to 100%% allowed, auto-restore at %1$s</string>
     <string name="status_idle">Status: idle (limit applied)</string>
     <string name="status_limit_full">Status: not needed, the limit is already 100%. Lower the charge limit in Settings first.</string>
+    <string name="status_next">Next scheduled run: %1$s</string>
 
     <!-- 배터리 보호 모드 -->
     <string name="mode_unsupported">Not supported (no setting key)</string>

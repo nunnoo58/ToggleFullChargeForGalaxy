@@ -10,9 +10,10 @@ An app that mimics the Mac's "Charge to Full Now" feature on Galaxy devices. Tap
 - Tested on: Galaxy S23, S26 (One UI 9), Galaxy Tab S8+ (One UI 8)
 - The app is available in Korean, English, and Japanese. Choose the language from the menu (≡) → Languages... By default it follows the phone's language, and it uses English for other languages.
 
-## Latest version: v2.1.2
+## Latest version: v2.2.0
 
-- Added the GitHub address to the About page (tap it to open in a browser)
+- Added the "Run automatically on the set days and time" option: runs "Full charge this time" automatically on the chosen days and time (pick any of Mon–Sun, with Weekdays, Weekends, and Every day shown by name; pick the time with a wheel)
+- Added the exact alarm permission (USE_EXACT_ALARM) so scheduled runs start on time (granted automatically at install, no adb needed)
 
 See [CHANGELOG.en.md](CHANGELOG.en.md) for earlier versions, and get the APK from the [latest release](https://github.com/nunnoo58/ToggleFullChargeForGalaxy/releases/latest).
 
@@ -149,7 +150,6 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 - [ ] Automation
   - [ ] Samsung Modes and Routines integration: start a full charge automatically when conditions (location, time, Bluetooth connection, and so on) are met
-  - [ ] Lift the limit when a calendar event title contains a specific keyword (TFC)
 
 ## Known limitations
 
