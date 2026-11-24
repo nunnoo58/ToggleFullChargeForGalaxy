@@ -155,7 +155,7 @@ The permission command prints nothing when it succeeds. Open the app, check that
 
 ## Testing
 
-Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1.1), a Galaxy S23 (One UI 9, v1.4.3–1.5), and a Galaxy Tab S8+ (One UI 8, v1.4.2). Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
+Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.2.0), a Galaxy S23 (One UI 9, v1.4.3–1.5, 2.1.2), and a Galaxy Tab S8+ (One UI 8, v1.4.2, 2.1.2). Charger disconnection, 100% battery, and stalled charging were checked by simulating battery states with `adb shell dumpsys battery`.
 
 ### Done
 
@@ -193,6 +193,10 @@ Results checked on a Galaxy S26 (One UI 9, v1.4.1–2.1.1), a Galaxy S23 (One UI
 - [x] With a 100% limit, lifting is blocked and the app, toast, and widget show a hint; toasts are not cut off in any of the three languages (v2.1.1, S26)
 - [x] If the limit changes while the app is closed, tapping the widget acts on the current state and refreshes the widget (v2.1.1, S26)
 - [x] With "Keep charging at full" on, the limit stays lifted at 100% and in the full state; with it off, it is restored at 100% (v2.1.1, S26)
+- [x] Tapping the GitHub address on the About page opens the repository (v2.1.2, S26, S23, Tab S8+)
+- [x] Scheduled run: lifts the limit on the set days and time with the screen off, then sets the next scheduled run automatically (v2.2.0, S26)
+- [x] The days button shows Weekdays, Weekends, and Every day by name, and the days and time buttons are hidden when scheduling is off (v2.2.0, S26)
+- [x] The schedule is kept after an update (install over the existing app) (v2.2.0, S26)
 - [x] The app name is shown once, and status bar icons are dark in light mode (v1.5, S23)
 
 ## License and disclaimer
